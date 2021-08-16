@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class SubjectQuery implements Query {
+public class SubjectQuery extends Query {
 
     //课题id
     private List<Long> subjectIds;

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class FormQuery implements Query {
+public class FormQuery extends Query {
 
     //表单id
     private List<Long> formIds;

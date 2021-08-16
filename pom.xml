@@ -16,6 +16,7 @@
         <springboot.version>2.3.0.RELEASE</springboot.version>
         <mybatis.version>3.5.5</mybatis.version>
         <mysql-connector.version>8.0.21</mysql-connector.version>
+        <pagehelper.version>1.2.5</pagehelper.version>
     </properties>
 
     <dependencies>
@@ -47,6 +48,12 @@
                     <artifactId>jul-to-slf4j</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!-- pageHelper -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagehelper.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>

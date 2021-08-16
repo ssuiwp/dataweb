@@ -63,6 +63,9 @@ public interface SubjectMapper {
     })
     List<Subject> getSubjects(@Param("query") SubjectQuery query);
 
+
+
+
     /**
      * 更新课题
      */
