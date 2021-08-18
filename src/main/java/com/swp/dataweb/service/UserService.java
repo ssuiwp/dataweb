@@ -10,6 +10,4 @@ public class UserService {
     @Resource
     private UserMapper userMapper;
 
-
-
 }

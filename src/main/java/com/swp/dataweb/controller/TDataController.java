@@ -4,6 +4,7 @@ import com.swp.dataweb.entity.Response.Response;
 import com.swp.dataweb.entity.Subject;
 import com.swp.dataweb.entity.SubjectQuery;
 import com.swp.dataweb.entity.TData;
+import com.swp.dataweb.entity.TDataModel;
 import com.swp.dataweb.service.TDataService;
 import lombok.Data;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,12 +29,12 @@ public class TDataController {
      * 填写数据
      */
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public Response createSubject(@RequestBody List<TData> tData){
-        if(tData == null){
+    public Response createSubject(@RequestBody TDataModel tDataModel){
+        if(tDataModel == null){
             return Response.error(FAILURE);
         }
 
-        return tDataService.createTData(tData);
+        return tDataService.createTData(tDataModel);
     }
 
     /**
@@ -44,7 +45,7 @@ public class TDataController {
         if (subject == null){
             return Response.error(FAILURE);
         }
-        return tDataService.obtainTData(subject.getId());
+        return tDataService.obtainTData(subject);
     }
 
     /**

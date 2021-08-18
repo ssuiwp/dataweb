@@ -40,31 +40,35 @@ public interface SubjectMapper {
             "   WHERE " +
             "       1 = 1" +
             "       <if test='query.subjectNames != null'> " +
-            "           AND name IN " +
             "           <foreach collection='query.subjectNames' item='sname' separator=',' open='(' close=')'> " +
-            "               #{sname} " +
+            "           AND name like " +
+            "               %#{sname}% " +
             "           </foreach>" +
             "       </if> " +
             "       <if test='query.subjectType != null'>" +
-            "           AND type IN " +
             "           <foreach collection='query.subjectType' item='stype' separator=',' open='(' close=')'> " +
-            "               #{stype} " +
+            "           AND type like " +
+            "               %#{stype}% " +
             "           </foreach> " +
             "       </if> " +
             "       <if test='query.subjectUnit != null'>" +
-            "           AND unit IN " +
             "           <foreach collection='query.subjectUnit' item='unit' separator=',' open='(' close=')'> " +
-            "               #{unit} " +
+            "           AND unit like " +
+            "               %#{unit}% " +
             "           </foreach> " +
             "       </if> " +
+            "   limit #{query.PageInfo.pageSize*(query.PageInfo.currentPage-1)}, #{pageSize} ;" +
             "</script>")
     @Results(id = "subjectResultMap", value = {
             @Result(column = "create_time" , property = "createTime")
     })
     List<Subject> getSubjects(@Param("query") SubjectQuery query);
 
-
-
+    /**
+     * 查询课题总数
+     */
+    @Select("select count(id) from subject")
+    int getTotal();
 
     /**
      * 更新课题

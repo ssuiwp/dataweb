@@ -18,4 +18,5 @@ public class SubjectQuery extends Query {
     private List<String> subjectUnit;
     //创建人
     private List<String> owners;
+
 }

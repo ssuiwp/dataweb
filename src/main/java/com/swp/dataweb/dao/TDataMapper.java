@@ -1,5 +1,6 @@
 package com.swp.dataweb.dao;
 
+import com.swp.dataweb.entity.Subject;
 import com.swp.dataweb.entity.TData;
 
 import org.apache.ibatis.annotations.*;
@@ -28,6 +29,7 @@ public interface TDataMapper {
     int addTData(@Param("list") List<TData> data);
 
 
+
     /**
      * 查询数据需要查询课表，查询课表相关的表单，查询表单相关的问项，通过表单和问项id锁定问项数据
      */
@@ -42,7 +44,14 @@ public interface TDataMapper {
             @Result(column = "item_id", property = "itemId"),
             @Result(column = "create_time", property = "createTime")
     })
-    List<TData> getTData(@Param("id") long subjectId);
+    List<TData> getTData(Subject subject);
+
+//    /**
+//     * 获取数据总数
+//     */
+//    @Select("select count(id) from tdata")
+//    int getTotal();
+
 
 
     /**

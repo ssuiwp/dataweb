@@ -34,22 +34,30 @@ public interface MultiItemMapper {
             "   WHERE " +
             "       1 = 1" +
             "       <if test='query.itemNames != null'> " +
-            "           AND name IN " +
             "           <foreach collection='query.itemNames' item='name' separator=',' open='(' close=')'> " +
-            "               #{name} " +
+            "           AND name like " +
+            "               %#{name}% " +
             "           </foreach>" +
             "       </if> " +
             "       <if test='query.types != null'>" +
-            "           AND type IN " +
             "           <foreach collection='query.types' item='type' separator=',' open='(' close=')'> " +
-            "               #{type} " +
+            "           AND type like " +
+            "               %#{type}% " +
             "           </foreach> " +
             "       </if> " +
+            "   limit #{query.PageInfo.pageSize*(query.PageInfo.currentPage-1)}, #{pageSize} ;" +
             "</script>")
     @Results(id = "itemResultMap" , value = {
             @Result(column = "create_time", property = "createTime")
     })
     List<MultiItem> getMultiItem(@Param("query") MultiItemQuery query);
+
+    /**
+     * 查询问项总数
+     */
+    @Select("select count(id) from multiitem")
+    int getTotal();
+
 
     @Select("   SELECT " +
             "       id, name, type, title, options, creator, create_time " +

@@ -22,14 +22,14 @@ public class DatasourceConfig {
         return new DruidDataSource();
     }
 
-    @Bean(name = "moonlightSqlSessionFactory")
-    @Primary
-    public SqlSessionFactory moonlightSqlSessionFactory(@Qualifier("moonlightData") DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-//        bean.setDataSource(dataSource);
-//        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis-mapper/*.xml"));
-        bean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
-        return bean.getObject();
-    }
+//    @Bean(name = "moonlightSqlSessionFactory")
+//    @Primary
+//    public SqlSessionFactory moonlightSqlSessionFactory(@Qualifier("moonlightData") DataSource dataSource) throws Exception {
+//        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+////        bean.setDataSource(dataSource);
+////        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis-mapper/*.xml"));
+//        bean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
+//        return bean.getObject();
+//    }
 
 }

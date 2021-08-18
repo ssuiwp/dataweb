@@ -1,13 +1,12 @@
 package com.swp.dataweb.service;
 
+import com.github.pagehelper.Page;
 import com.swp.dataweb.dao.FormMapper;
 import com.swp.dataweb.dao.TDataMapper;
-import com.swp.dataweb.entity.Form;
-import com.swp.dataweb.entity.FormMultiItemRelation;
-import com.swp.dataweb.entity.FormQuery;
+import com.swp.dataweb.entity.*;
+import com.swp.dataweb.entity.Response.QueryResponse;
 import com.swp.dataweb.entity.Response.Response;
 import com.swp.dataweb.entity.Response.Status;
-import com.swp.dataweb.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,9 +56,13 @@ public class FormService {
     /**
      * 查找表单
      */
-    public Response<List<Form>> obtainForm(FormQuery query){
+    @Transactional
+    public QueryResponse<List<Form>> obtainForm(FormQuery query){
         List<Form> forms = formMapper.getForm(query);
-        return Response.success(forms);
+        PageInfo p = new PageInfo();
+        int total = formMapper.getTotal();
+        p.setTotalCount(total);
+        return QueryResponse.success(forms,p);
     }
 
     /**

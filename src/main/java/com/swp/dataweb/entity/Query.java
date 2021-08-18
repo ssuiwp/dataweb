@@ -1,6 +1,8 @@
 package com.swp.dataweb.entity;
 
-public abstract class Query {
+import java.io.Serializable;
+
+public abstract class Query implements Serializable {
     //分页信息
-    private PageBean pageBean;
+    private PageInfo pageInfo;
 }

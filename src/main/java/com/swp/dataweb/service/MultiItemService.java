@@ -1,10 +1,13 @@
 package com.swp.dataweb.service;
 
+import com.github.pagehelper.Page;
 import com.swp.dataweb.dao.MultiItemMapper;
 import com.swp.dataweb.entity.*;
+import com.swp.dataweb.entity.Response.QueryResponse;
 import com.swp.dataweb.entity.Response.Response;
 import com.swp.dataweb.entity.Response.Status;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -37,9 +40,12 @@ public class MultiItemService {
      * @param query 问项查询
      * @return
      */
-    public Response<List<MultiItem>> obtainMultiItem(MultiItemQuery query){
+    @Transactional
+    public QueryResponse<List<MultiItem>> obtainMultiItem(MultiItemQuery query){
         List<MultiItem> multiItems = multiItemMapper.getMultiItem(query);
-        return Response.success(multiItems);
+        PageInfo p = new PageInfo();
+        p.setTotalCount(multiItemMapper.getTotal());
+        return QueryResponse.success(multiItems,p);
     }
 
     private static Response<MultiItem> checkMultiItem(/*User user,*/ MultiItem multiItem){

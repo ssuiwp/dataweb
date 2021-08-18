@@ -39,7 +39,7 @@ public interface FormMapper {
 
 
     /**
-     * 查询表单
+     * 分页查询表单
      */
     @Select("<script> " +
             "   SELECT " +
@@ -49,24 +49,30 @@ public interface FormMapper {
             "   WHERE " +
             "       1 = 1" +
             "       <if test='query.subjectNames != null'> " +
-            "           AND id IN " +
             "           <foreach collection='query.subjectNames' item='sname' separator=',' open='(' close=')'> " +
-            "               #{sname} " +
+            "           AND id like " +
+            "               %#{sname}% " +
             "           </foreach>" +
             "       </if> " +
             "       <if test='query.formNames != null'>" +
-            "           AND subject_name IN " +
             "           <foreach collection='query.formNames' item='fname' separator=',' open='(' close=')'> " +
-            "               #{fname} " +
+            "           AND subject_name like " +
+            "               %#{fname}% " +
             "           </foreach> " +
             "       </if> " +
+            "   limit #{query.PageInfo.pageSize*(query.PageInfo.currentPage-1)}, #{pageSize} ;" +
             "</script>")
     @Results(id = "formResultMap" ,value = {
             @Result(column = "subject_name", property = "subjectName"),
-            @Result(column = "create_time", property = "createTime")
+            @Result(column = "create_time", property = "createTime"),
     })
     List<Form> getForm(@Param("query") FormQuery query);
 
+    /**
+     * 查询表单总数
+     */
+    @Select("select count(id) form form" )
+    int getTotal();
 
     /**
      * 更新表单

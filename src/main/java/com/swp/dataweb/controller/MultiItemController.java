@@ -2,6 +2,7 @@ package com.swp.dataweb.controller;
 
 import com.swp.dataweb.entity.MultiItem;
 import com.swp.dataweb.entity.MultiItemQuery;
+import com.swp.dataweb.entity.Response.QueryResponse;
 import com.swp.dataweb.entity.Response.Response;
 import com.swp.dataweb.entity.Response.Status;
 import com.swp.dataweb.service.MultiItemService;
@@ -34,9 +35,9 @@ public class MultiItemController {
      * 查询问项
      */
     @PostMapping(value = "/query", consumes = "application/json", produces = "application/json")
-    public Response obtainMultiItem(@RequestBody MultiItemQuery query){
+    public QueryResponse obtainMultiItem(@RequestBody MultiItemQuery query){
         if (query == null) {
-            return Response.error(Status.MULTIITEM_QUERY_EMPTY);
+            return QueryResponse.error(Status.MULTIITEM_QUERY_EMPTY);
         }
         return multiItemService.obtainMultiItem(query);
     }

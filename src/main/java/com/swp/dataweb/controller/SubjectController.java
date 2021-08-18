@@ -1,5 +1,6 @@
 package com.swp.dataweb.controller;
 
+import com.swp.dataweb.entity.Response.QueryResponse;
 import com.swp.dataweb.entity.Response.Response;
 
 import com.swp.dataweb.entity.Subject;
@@ -40,9 +41,9 @@ public class SubjectController {
      * @return 查询类
      */
     @PostMapping(value = "/query", consumes = "application/json", produces = "application/json")
-    public Response obtainSubject(@RequestBody SubjectQuery query){
+    public QueryResponse obtainSubject(@RequestBody SubjectQuery query){
         if (query == null){
-            return Response.error(SUBJECT_QUERY_EMPTY);
+            return QueryResponse.error(SUBJECT_QUERY_EMPTY);
         }
         return subjectService.obtainSubject(query);
     }

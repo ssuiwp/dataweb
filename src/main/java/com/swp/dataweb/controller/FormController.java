@@ -1,12 +1,10 @@
 package com.swp.dataweb.controller;
 
 import com.swp.dataweb.dao.FormMapper;
-import com.swp.dataweb.entity.Form;
-import com.swp.dataweb.entity.FormMultiItemRelation;
-import com.swp.dataweb.entity.FormQuery;
+import com.swp.dataweb.entity.*;
+import com.swp.dataweb.entity.Response.QueryResponse;
 import com.swp.dataweb.entity.Response.Response;
 import com.swp.dataweb.entity.Response.Status;
-import com.swp.dataweb.entity.User;
 import com.swp.dataweb.service.FormService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +34,6 @@ public class FormController {
         if(form == null){
             return Response.error(FORM_EMPTY);
         }
-
         return formService.createForm(form);
     }
 
@@ -44,9 +41,9 @@ public class FormController {
      * 查询表单
      */
     @PostMapping(value = "/query", consumes = "application/json", produces = "application/json")
-    public Response<List<Form>> obtainForm(@RequestBody FormQuery query){
+    public QueryResponse<List<Form>> obtainForm(@RequestBody FormQuery query){
         if(query == null){
-            return Response.error(FORM_QUERY_EMPTY);
+            return QueryResponse.error(FORM_QUERY_EMPTY);
         }
         return formService.obtainForm(query);
     }

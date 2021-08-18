@@ -17,4 +17,5 @@ public class FormQuery extends Query {
     private List<Long> subjectIds;
     //创建人
     private List<String> creators;
+
 }

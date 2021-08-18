@@ -2,6 +2,8 @@ package com.swp.dataweb.service;
 
 import com.swp.dataweb.dao.FormMapper;
 import com.swp.dataweb.dao.SubjectMapper;
+import com.swp.dataweb.entity.PageInfo;
+import com.swp.dataweb.entity.Response.QueryResponse;
 import com.swp.dataweb.entity.Response.Response;
 import com.swp.dataweb.entity.Response.Status;
 import com.swp.dataweb.entity.Subject;
@@ -34,9 +36,12 @@ public class SubjectService {
         return Response.success(subject);
     }
 
-    public Response<List<Subject>> obtainSubject(SubjectQuery query){
+    @Transactional
+    public QueryResponse<List<Subject>> obtainSubject(SubjectQuery query){
         List<Subject> subjects = subjectMapper.getSubjects(query);
-        return Response.success(subjects);
+        PageInfo p = new PageInfo();
+        p.setTotalCount(subjectMapper.getTotal());
+        return QueryResponse.success(subjects,p);
     }
 
     public Response<Subject> updateSubject(Subject subject){
