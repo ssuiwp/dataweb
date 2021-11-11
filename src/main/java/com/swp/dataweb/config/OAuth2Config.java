@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.*;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -30,11 +31,11 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Resource
     private TokenStore tokenStore;
     @Resource
-    private TokenEnhancer jwtAccessTokenConverter;
+    private TokenEnhancer tokenEnhancer;
     @Resource
     private PasswordEncoder passwordEncoder;
-//    @Autowired
-//    private CustomUserAuthenticationConverter customUserAuthenticationConverter;
+    @Resource
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     /**
      * 配置认证规则
@@ -48,8 +49,9 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 
                 //配置由谁完成认证?(认证管理器)
                 .authenticationManager(authenticationManager)
-                //配置由谁负责查询用户业务数据(可选)
-                //.userDetailsService(userDetailsService)
+                //配置由谁负责查询用户业务数据(可选)//可以让principal可以获取到用户完整信息
+                .userDetailsService(userService)
+                .accessTokenConverter(jwtAccessTokenConverter)
                 //配置可以处理的认证请求方式.(可选,默认只能处理post请求)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST)
                 //配置token生成及存储策略(默认是UUID~随机的字符串)
@@ -62,9 +64,9 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
         //2.配置令牌的创建和存储对象(TokenStore)
         tokenServices.setTokenStore(tokenStore);
         //3.配置令牌增强(默认令牌的生成非常简单,使用的就是UUID)
-        TokenEnhancerChain tokenEnhancer=new TokenEnhancerChain();
-        tokenEnhancer.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter));
-        tokenServices.setTokenEnhancer(tokenEnhancer);
+        TokenEnhancerChain tokenEnhancerChain=new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer));
+        tokenServices.setTokenEnhancer(tokenEnhancerChain);
         //4.设置令牌有效时长?
         tokenServices.setAccessTokenValiditySeconds(3600);//1小时
         //5.设置是否支持刷新令牌刷(是否支持使用刷新令牌再生成新令牌)

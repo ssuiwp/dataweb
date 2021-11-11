@@ -1,5 +1,6 @@
-package com.swp.dataweb.entity;
+package com.swp.dataweb.entity.response;
 
+import com.swp.dataweb.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -88,10 +88,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationFailureHandler failureHandler() {
         return (request, response, authentication) -> {
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("status",201);
-//            map.put("message","failed");
-//            map.put("data",SysResult.error());
 
             writeJsonToClient(response, SysResult.error());
         };
@@ -100,10 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationSuccessHandler successHandler() {
         return (request, response, authentication) -> {
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("status",200);
-//            map.put("message","success");
-//            map.put("data",SysResult.success());
+
             writeJsonToClient(response, SysResult.success());
         };
     }
@@ -111,11 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private void writeJsonToClient(HttpServletResponse response, Object o) throws IOException {
         PrintWriter writer = response.getWriter();
         String jsonResult = new ObjectMapper().writeValueAsString(o);
-//        System.out.println(jsonResult);
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        System.out.println(authentication);
-//        User user = (User)authentication.getPrincipal();
-//        System.out.println(user);
+
         writer.write(jsonResult);
         writer.flush();
     }
