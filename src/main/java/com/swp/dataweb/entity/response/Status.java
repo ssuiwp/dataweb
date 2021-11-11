@@ -1,4 +1,4 @@
-package com.swp.dataweb.entity.Response;
+package com.swp.dataweb.entity.response;
 
 public enum Status {
 
@@ -25,17 +25,18 @@ public enum Status {
 
     // User
     USER_EMPTY(-50, "user information empty ......"),
+    USER_REGISTER_FAILED(-54, "user register failed ......"),
     USER_QUERY_EMPTY(-51, "user information empty ......"),
     USER_NAME_EMPTY(-52, "missing user name ......."),
     USER_PASSWORD_EMPTY(-53, "missing user password ......."),
 //    USER_TO_PROJECT_EMPTY(-54, "missing user's project ......."),
 
     // multiItem
-    MULTIITEM_EMPTY(-20, "multiItem information empty ......."),
-    MULTIITEM_QUERY_EMPTY(-21, "multiItem query information empty ......."),
-    MULTIITEM_NAME_EMPTY(-22, "missing multiItem name ......."),
-    MULTIITEM_FORM_EMPTY(-23, "missing belonging form ......."),
-    MULTIITEM_ILLEGAL(-24, "illegal multiItem id ......"),
+    ITEM_EMPTY(-20, "multiItem information empty ......."),
+    ITEM_QUERY_EMPTY(-21, "multiItem query information empty ......."),
+    ITEM_NAME_EMPTY(-22, "missing multiItem name ......."),
+    ITEM_FORM_EMPTY(-23, "missing belonging form ......."),
+    ITEM_ILLEGAL(-24, "illegal multiItem id ......"),
     ;
 
 

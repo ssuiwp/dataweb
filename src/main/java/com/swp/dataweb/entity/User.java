@@ -1,23 +1,22 @@
 package com.swp.dataweb.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-@Data
-@EqualsAndHashCode
-public class User extends BaseEntity {
 
-    //    @JsonProperty("id")
-    private long id;//用户id
-    //    @JsonProperty("id")
-    private String name;//用户名
-    //    @JsonProperty("id")
+import java.math.BigInteger;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+@TableName("user")
+public class User extends BaseEntity {
+    @TableId(type = IdType.AUTO)
+    private BigInteger id;//用户id
+    private String username;//用户名
     private String password;//用户密码
-    //    @JsonProperty("id")
     private String email;//用户邮箱
-    //    @JsonProperty("id")
     private String iphone;//用户电话
-    //    @JsonProperty("id")
-    private String creator;//创建人
 
 }

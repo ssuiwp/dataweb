@@ -19,7 +19,7 @@ public class Form extends BaseEntity {
     private List<MultiItem> multiItems;
     @JsonProperty("owner")
     private String creator;//登记人
-    private String create_time;//登记时间
+    private String created;//登记时间
     @JsonProperty("desc")
     private String postscript;//表单描述
 }

@@ -1,12 +1,11 @@
 package com.swp.dataweb.controller;
 
-import com.swp.dataweb.entity.Response.Response;
 import com.swp.dataweb.entity.Subject;
-import com.swp.dataweb.entity.SubjectQuery;
 import com.swp.dataweb.entity.TData;
 import com.swp.dataweb.entity.TDataModel;
+import com.swp.dataweb.entity.response.Status;
+import com.swp.dataweb.entity.response.SysResult;
 import com.swp.dataweb.service.TDataService;
-import lombok.Data;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +15,9 @@ import javax.annotation.Resource;
 
 import java.util.List;
 
-import static com.swp.dataweb.entity.Response.Status.*;
 
 @RestController
-@RequestMapping("/dataweb/tdata")
+@RequestMapping("tdata")
 public class TDataController {
 
     @Resource
@@ -29,9 +27,9 @@ public class TDataController {
      * 填写数据
      */
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public Response createSubject(@RequestBody TDataModel tDataModel){
+    public SysResult createSubject(@RequestBody TDataModel tDataModel){
         if(tDataModel == null){
-            return Response.error(FAILURE);
+            return SysResult.error(Status.FAILURE);
         }
 
         return tDataService.createTData(tDataModel);
@@ -41,9 +39,9 @@ public class TDataController {
      * 查询数据
      */
     @PostMapping(value = "/query", consumes = "application/json", produces = "application/json")
-    public Response obtainTData(@RequestBody Subject subject){
+    public SysResult obtainTData(@RequestBody Subject subject){
         if (subject == null){
-            return Response.error(FAILURE);
+            return SysResult.error(Status.FAILURE);
         }
         return tDataService.obtainTData(subject);
     }
@@ -52,9 +50,9 @@ public class TDataController {
      * 更新数据
      */
     @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
-    public Response updateTData(@RequestBody List<TData> tData){
+    public SysResult updateTData(@RequestBody List<TData> tData){
         if(tData == null){
-            return Response.error(FAILURE);
+            return SysResult.error(Status.FAILURE);
         }
         return tDataService.updateTData(tData);
     }

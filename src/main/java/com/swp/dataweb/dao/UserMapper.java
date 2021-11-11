@@ -1,17 +1,15 @@
 package com.swp.dataweb.dao;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.swp.dataweb.entity.User;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户信息操作
  */
-@Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<User> {
 
     /**
      * 注册用户

@@ -1,16 +1,14 @@
 package com.swp.dataweb.service;
 
-import com.github.pagehelper.Page;
 import com.swp.dataweb.dao.MultiItemMapper;
-import com.swp.dataweb.entity.*;
-import com.swp.dataweb.entity.Response.QueryResponse;
-import com.swp.dataweb.entity.Response.Response;
-import com.swp.dataweb.entity.Response.Status;
+import com.swp.dataweb.entity.MultiItem;
+import com.swp.dataweb.entity.MultiItemQuery;
+import com.swp.dataweb.entity.response.Status;
+import com.swp.dataweb.entity.response.SysResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -26,13 +24,13 @@ public class MultiItemService {
      * @param multiItem 问项
      * @return
      */
-    public Response<MultiItem> createMultiItem(/*User user,*/MultiItem multiItem) {
-/*        Response<Subject> response = checkMultiItem(user,multiItem);
-        if (response != null) {
-            return response;
+    public SysResult<MultiItem> createMultiItem(/*User user,*/MultiItem multiItem) {
+/*        SysResult<Subject> SysResult = checkMultiItem(user,multiItem);
+        if (SysResult != null) {
+            return SysResult;
         }*/
         multiItemMapper.addMultiItem(multiItem);
-        return Response.success(multiItem);
+        return SysResult.success(multiItem);
     }
 
     /**
@@ -41,16 +39,16 @@ public class MultiItemService {
      * @return
      */
     @Transactional
-    public QueryResponse<List<MultiItem>> obtainMultiItem(MultiItemQuery query){
+    public SysResult obtainMultiItem(MultiItemQuery query){
         List<MultiItem> multiItems = multiItemMapper.getMultiItem(query);
-        PageInfo p = new PageInfo();
-        p.setTotalCount(multiItemMapper.getTotal());
-        return QueryResponse.success(multiItems,p);
+//        PageInfo p = new PageInfo();
+//        p.setTotal(multiItemMapper.getTotal());
+        return SysResult.success(Status.SUCCESS,null);
     }
 
-    private static Response<MultiItem> checkMultiItem(/*User user,*/ MultiItem multiItem){
+    private static SysResult<MultiItem> checkMultiItem(/*User user,*/ MultiItem multiItem){
         if(isEmpty(multiItem.getName())){
-            return Response.error(Status.SUBJECT_NAME_EMPTY);
+            return SysResult.error(Status.SUBJECT_NAME_EMPTY);
         }
         return null;
     }

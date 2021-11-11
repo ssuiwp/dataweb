@@ -2,10 +2,11 @@ package com.swp.dataweb.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class SubjectQuery extends Query {
+public class SubjectQuery implements Serializable {
 
     //课题id
     private List<Long> subjectIds;

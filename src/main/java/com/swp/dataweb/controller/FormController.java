@@ -1,10 +1,8 @@
 package com.swp.dataweb.controller;
 
-import com.swp.dataweb.dao.FormMapper;
 import com.swp.dataweb.entity.*;
-import com.swp.dataweb.entity.Response.QueryResponse;
-import com.swp.dataweb.entity.Response.Response;
-import com.swp.dataweb.entity.Response.Status;
+import com.swp.dataweb.entity.response.Status;
+import com.swp.dataweb.entity.response.SysResult;
 import com.swp.dataweb.service.FormService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,10 +13,9 @@ import javax.annotation.Resource;
 
 import java.util.List;
 
-import static com.swp.dataweb.entity.Response.Status.*;
 
 @RestController
-@RequestMapping("/dataweb/form")
+@RequestMapping("form")
 public class FormController {
 
     @Resource
@@ -30,9 +27,9 @@ public class FormController {
      * @return 创建表单成功
      */
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public Response<Form> createForm(@RequestBody Form form){
+    public SysResult<Form> createForm(@RequestBody Form form){
         if(form == null){
-            return Response.error(FORM_EMPTY);
+            return SysResult.error(Status.FORM_EMPTY);
         }
         return formService.createForm(form);
     }
@@ -41,9 +38,9 @@ public class FormController {
      * 查询表单
      */
     @PostMapping(value = "/query", consumes = "application/json", produces = "application/json")
-    public QueryResponse<List<Form>> obtainForm(@RequestBody FormQuery query){
+    public SysResult<List<Form>> obtainForm(@RequestBody FormQuery query){
         if(query == null){
-            return QueryResponse.error(FORM_QUERY_EMPTY);
+            return SysResult.error(Status.FORM_QUERY_EMPTY);
         }
         return formService.obtainForm(query);
     }
@@ -52,9 +49,9 @@ public class FormController {
      * 更新表单
      */
     @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
-    public Response<Form> updateForm(@RequestBody  Form form){
+    public SysResult<Form> updateForm(@RequestBody  Form form){
         if(form == null){
-            return Response.error(FORM_EMPTY);
+            return SysResult.error(Status.FORM_EMPTY);
         }
 
         return formService.updateForm(form);
@@ -64,9 +61,9 @@ public class FormController {
      * 删除表单
      */
     @PostMapping(value = "/delete", consumes = "application/json", produces = "application/json")
-    public Response deleteForm(@RequestBody Form form){
+    public SysResult deleteForm(@RequestBody Form form){
         if(form == null){
-            return Response.error(FORM_EMPTY);
+            return SysResult.error(Status.FORM_EMPTY);
         }
         return formService.deleteForm(form);
     }

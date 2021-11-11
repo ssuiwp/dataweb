@@ -1,12 +1,14 @@
-package com.swp.dataweb.entity.Response;
+package com.swp.dataweb.entity.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 
 @Data
-public class Response<T> {
+public class SysResult<T> implements Serializable {
 
     private int code;
 
@@ -14,25 +16,25 @@ public class Response<T> {
 
     private T data;
 
-    private Response(int status, String msg) {
+    private SysResult(int status, String msg) {
         this.code = status;
         this.msg = msg;
     }
 
-    private Response(Status status) {
+    private SysResult(Status status) {
         if (status != null) {
             this.code = status.getCode();
             this.msg = status.getDesc();
         }
     }
 
-    private Response(T data) {
+    private SysResult(T data) {
         this.code = Status.SUCCESS.getCode();
         this.msg = Status.SUCCESS.getDesc();
         this.data = data;
     }
 
-    private Response(Status status, T data) {
+    private SysResult(Status status, T data) {
         this.code = status.getCode();
         this.msg = status.getDesc();
         this.data = data;
@@ -41,7 +43,7 @@ public class Response<T> {
 
 
     @JsonCreator
-    private Response(@JsonProperty("code") int code,
+    private SysResult(@JsonProperty("code") int code,
                      @JsonProperty("msg") String msg,
                      @JsonProperty("data") T data) {
         this.code = code;
@@ -49,15 +51,21 @@ public class Response<T> {
         this.data = data;
     }
 
-    public static <T> Response<T> success(Status status, T data){
-        return new Response<>(status,data);
+    public static <T> SysResult<T> success(Status status, T data){
+        return new SysResult<>(status,data);
+    }
+    public static <T> SysResult<T> success(){
+        return new SysResult<>(Status.SUCCESS);
     }
 
-    public static <T> Response<T> success(T data) {
-        return new Response<T>(data);
+    public static <T> SysResult<T> success(T data) {
+        return new SysResult<T>(data);
     }
-    public static <T> Response<T> error(Status status){
-        return new Response<T>(status);
+    public static <T> SysResult<T> error(Status status){
+        return new SysResult<T>(status);
+    }
+    public static <T> SysResult<T> error(){
+        return new SysResult<T>(Status.FAILURE);
     }
 }
 

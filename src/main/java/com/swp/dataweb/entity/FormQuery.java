@@ -2,10 +2,11 @@ package com.swp.dataweb.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class FormQuery extends Query {
+public class FormQuery implements Serializable {
 
     //表单id
     private List<Long> formIds;

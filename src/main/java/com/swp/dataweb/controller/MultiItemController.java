@@ -2,9 +2,8 @@ package com.swp.dataweb.controller;
 
 import com.swp.dataweb.entity.MultiItem;
 import com.swp.dataweb.entity.MultiItemQuery;
-import com.swp.dataweb.entity.Response.QueryResponse;
-import com.swp.dataweb.entity.Response.Response;
-import com.swp.dataweb.entity.Response.Status;
+import com.swp.dataweb.entity.response.Status;
+import com.swp.dataweb.entity.response.SysResult;
 import com.swp.dataweb.service.MultiItemService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/dataweb/multiItem")
+@RequestMapping("item")
 public class MultiItemController {
 
     @Resource
@@ -24,9 +23,9 @@ public class MultiItemController {
      * 添加问项
      */
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public Response createMultiItem(@RequestBody MultiItem multiItem){
+    public SysResult createMultiItem(@RequestBody MultiItem multiItem){
         if(multiItem == null){
-            return Response.error(Status.MULTIITEM_EMPTY);
+            return SysResult.error();
         }
         return multiItemService.createMultiItem(multiItem);
     }
@@ -35,9 +34,9 @@ public class MultiItemController {
      * 查询问项
      */
     @PostMapping(value = "/query", consumes = "application/json", produces = "application/json")
-    public QueryResponse obtainMultiItem(@RequestBody MultiItemQuery query){
+    public SysResult obtainMultiItem(@RequestBody MultiItemQuery query){
         if (query == null) {
-            return QueryResponse.error(Status.MULTIITEM_QUERY_EMPTY);
+            return SysResult.error();
         }
         return multiItemService.obtainMultiItem(query);
     }
