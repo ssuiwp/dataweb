@@ -14,7 +14,7 @@ import java.math.BigInteger;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class UserDesc extends BaseEntity{
-    private BigInteger id;//用户id
+    private Long id;//用户id
     private String username;//用户名
     private String email;//用户邮箱
     private String iphone;//用户电话

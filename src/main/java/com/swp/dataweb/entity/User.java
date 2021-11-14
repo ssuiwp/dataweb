@@ -11,7 +11,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.math.BigInteger;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,10 +26,14 @@ import java.util.List;
 @Accessors(chain = true)
 public class User extends BaseEntity implements UserDetails {
     @TableId(type = IdType.AUTO)
-    private BigInteger id;//用户id
+
+    @NotBlank(message = "用户名不能为空！")
+    private Long id;//用户id
     private String username;//用户名
     private String password;//用户密码
+    @Email(message = "邮箱有误！")
     private String email;//用户邮箱
+    @Pattern(regexp = "^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$",message = "手机号码有误！")
     private String iphone;//用户电话
 
     @Override

@@ -1,5 +1,6 @@
 package com.swp.dataweb.controller;
 
+import com.swp.dataweb.entity.Item;
 import com.swp.dataweb.entity.MultiItem;
 import com.swp.dataweb.entity.MultiItemQuery;
 import com.swp.dataweb.entity.response.Status;
@@ -14,7 +15,7 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("item")
-public class MultiItemController {
+public class ItemController {
 
     @Resource
     private MultiItemService multiItemService;
@@ -23,11 +24,11 @@ public class MultiItemController {
      * 添加问项
      */
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public SysResult createMultiItem(@RequestBody MultiItem multiItem){
-        if(multiItem == null){
+    public SysResult addItem(@RequestBody Item item){
+        if(item == null){
             return SysResult.error();
         }
-        return multiItemService.createMultiItem(multiItem);
+        return multiItemService.createMultiItem(item);
     }
 
     /**

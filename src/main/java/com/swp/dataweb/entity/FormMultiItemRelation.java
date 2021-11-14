@@ -10,7 +10,7 @@ import java.util.List;
 public class FormMultiItemRelation extends BaseEntity {
 
     //表单id
-    private long formId;
+    private Long formId;
 
     //问项id
     private List<Long> multiItemIds;

@@ -10,7 +10,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Form extends BaseEntity {
 
-    private long id;//表单id
+    private Long id;//表单id
     private String name;//表单名称
     // 归属课题
     private Subject subject;

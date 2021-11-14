@@ -6,4 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class BaseEntity implements Serializable {
+
+    private String created;
+    private String updated;
 }

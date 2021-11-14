@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Subject extends BaseEntity {
     //课题组编号
-    private long id;
+    private Long id;
     //课题组名称
     @JsonProperty("name")
     private String name;

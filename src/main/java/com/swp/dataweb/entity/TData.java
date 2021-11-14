@@ -10,11 +10,11 @@ import java.util.List;
 public class TData extends BaseEntity {
 
 
-    private long id;
+    private Long id;
     private Form form;
     private MultiItem multiItem;
-    private long formId;
-    private long itemId;
+    private Long formId;
+    private Long itemId;
     private String data;
     private String creator;
     private String createTime;

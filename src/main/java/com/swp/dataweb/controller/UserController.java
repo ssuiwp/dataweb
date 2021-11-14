@@ -7,6 +7,7 @@ import com.swp.dataweb.service.UserService;
 import com.swp.dataweb.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -33,7 +34,7 @@ public class UserController {
      * 注册
      */
     @PostMapping("/register")
-    public SysResult addUser(@RequestBody User user) {
+    public SysResult addUser(@Validated @RequestBody User user) {
         boolean result = userService.addUser(user);
         log.info(String.valueOf(user));
         if (result) {
