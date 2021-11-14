@@ -1,7 +1,7 @@
 package com.swp.dataweb.dao;
 
-import com.swp.dataweb.entity.Form;
-import com.swp.dataweb.entity.MultiItem;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.swp.dataweb.entity.Item;
 import com.swp.dataweb.entity.MultiItemQuery;
 import org.apache.ibatis.annotations.*;
 
@@ -11,17 +11,18 @@ import java.util.List;
  * 问项操作
  */
 @Mapper
-public interface MultiItemMapper {
+public interface ItemMapper extends BaseMapper<Item> {
 
     /**
      * 新建问项
      */
-    @Insert("insert into multiItem ( name, type, title, options ) " +
-            "values ( " +
-            " #{name}, #{type}, #{title}, #{options} " +
-            ")")
-    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    int addMultiItem(MultiItem multiItem);
+//    @Insert("insert into multiItem ( name, type, title, options ) " +
+//            "values ( " +
+//            " #{name}, #{type}, #{title}, #{options} " +
+//            ")")
+//    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int addItem(@Param("userId") Long userId,
+                @Param("itemId") Long itemId);
 
     /**
      * 查询问项
@@ -50,7 +51,7 @@ public interface MultiItemMapper {
     @Results(id = "itemResultMap" , value = {
             @Result(column = "create_time", property = "createTime")
     })
-    List<MultiItem> getMultiItem(@Param("query") MultiItemQuery query);
+    List<Item> getMultiItem(@Param("query") MultiItemQuery query);
 
     /**
      * 查询问项总数
@@ -66,8 +67,9 @@ public interface MultiItemMapper {
             "   where " +
             "   id =#{id}" )
     @ResultMap("itemResultMap")
-    MultiItem getMultiItemById(@Param("id") long multiItemId);
+    Item getMultiItemById(@Param("id") long multiItemId);
 
 
-
+    List<Item> findItem(@Param("userId") Long userId,
+                        @Param("itemName") String itemName);
 }

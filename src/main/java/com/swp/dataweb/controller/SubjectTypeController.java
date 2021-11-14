@@ -3,6 +3,7 @@ package com.swp.dataweb.controller;
 import com.swp.dataweb.entity.UserSubjectType;
 import com.swp.dataweb.entity.response.SysResult;
 import com.swp.dataweb.service.SubjectTypeService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,7 +22,7 @@ public class SubjectTypeController {
      * @return
      */
     @PostMapping("add")
-    public SysResult addSubjectType(@RequestBody UserSubjectType userSubjectType){
+    public SysResult addSubjectType(@Validated @RequestBody UserSubjectType userSubjectType){
         boolean result = subjectTypeService.add(userSubjectType);
         if(result) {
             return SysResult.success();
@@ -29,9 +30,9 @@ public class SubjectTypeController {
         return SysResult.error();
     }
 
-    @GetMapping("findAll")
-    public SysResult getSubjectType(){
-        List<UserSubjectType> list = subjectTypeService.getAllSubjectType();
+    @GetMapping("find/{subjectType}")
+    public SysResult getSubjectType(@PathVariable String subjectType){
+        List<UserSubjectType> list = subjectTypeService.getSubjectType(subjectType);
         if(list!=null&&list.size()!=0) {
             return SysResult.success(list);
         }
@@ -39,7 +40,7 @@ public class SubjectTypeController {
     }
 
     @PutMapping("update")
-    public SysResult updateSubjectType(@RequestBody UserSubjectType userSubjectType){
+    public SysResult updateSubjectType(@Validated @RequestBody UserSubjectType userSubjectType){
         boolean result = subjectTypeService.update(userSubjectType);
         if(result) {
             return SysResult.success();

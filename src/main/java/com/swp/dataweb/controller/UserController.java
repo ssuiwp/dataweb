@@ -49,7 +49,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/update")
-    public SysResult updateUser(@RequestBody User user) {
+    public SysResult updateUser(@Validated @RequestBody User user) {
         boolean result = userService.updateUser(user);
         log.info(String.valueOf(user));
         if (result) {

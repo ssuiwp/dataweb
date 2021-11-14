@@ -39,6 +39,6 @@ public class ValidatedExceptionHandler {
                 });
             }
         }
-        return SysResult.error(Status.VALIDATED_ERROR,stringBuilder.toString(),null);
+        return SysResult.error(Status.FAILURE,stringBuilder.toString(),null);
     }
 }

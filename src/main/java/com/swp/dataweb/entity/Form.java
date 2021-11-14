@@ -16,7 +16,7 @@ public class Form extends BaseEntity {
     private Subject subject;
     // 表单下的问项
     @JsonProperty("multiItems")
-    private List<MultiItem> multiItems;
+    private List<Item> multiItems;
     @JsonProperty("owner")
     private String creator;//登记人
     private String created;//登记时间

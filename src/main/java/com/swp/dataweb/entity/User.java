@@ -27,9 +27,10 @@ import java.util.List;
 public class User extends BaseEntity implements UserDetails {
     @TableId(type = IdType.AUTO)
 
-    @NotBlank(message = "用户名不能为空！")
     private Long id;//用户id
+    @NotBlank(message = "用户名不能为空！")
     private String username;//用户名
+    @NotBlank(message = "用户名不能为空！")
     private String password;//用户密码
     @Email(message = "邮箱有误！")
     private String email;//用户邮箱

@@ -12,7 +12,7 @@ public class TData extends BaseEntity {
 
     private Long id;
     private Form form;
-    private MultiItem multiItem;
+    private Item multiItem;
     private Long formId;
     private Long itemId;
     private String data;

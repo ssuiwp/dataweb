@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("user_subject_type")
@@ -17,6 +19,7 @@ public class UserSubjectType extends BaseEntity{
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long userId;
+    @NotBlank(message = "课题类型为空")
     private String subjectType;
 
 

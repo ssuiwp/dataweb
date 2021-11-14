@@ -1,5 +1,6 @@
 package com.swp.dataweb.service;
 
+import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.swp.dataweb.dao.SubjectTypeMapper;
 import com.swp.dataweb.entity.UserSubjectType;
@@ -21,9 +22,10 @@ public class SubjectTypeService {
         return row == 1;
     }
     /** 获取所有与课题类型*/
-    public List<UserSubjectType> getAllSubjectType() {
+    public List<UserSubjectType> getSubjectType(String subjectType) {
         QueryWrapper<UserSubjectType> query = new QueryWrapper();
-        query.eq("user_id",Utils.getUserId());
+        query.eq("user_id",Utils.getUserId())
+                .like(!StringUtils.isEmpty(subjectType),"subject_type",subjectType);
         return subjectTypeMapper.selectList(query);
     }
     /** 修改课题类型*/

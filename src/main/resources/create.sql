@@ -103,7 +103,7 @@ create table user
 (
     id       bigint primary key auto_increment comment '主键',
     username varchar(32) comment '用户名',
-    password varchar(32) comment '用户密码',
+    password varchar(64) comment '用户密码',
     email    varchar(32) comment '用户邮箱',
     iphone   varchar(15) comment '手机号',
 
