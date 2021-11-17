@@ -2,11 +2,9 @@ package com.swp.dataweb.dao;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.swp.dataweb.entity.Subject;
-import com.swp.dataweb.entity.SubjectQuery;
+import com.swp.dataweb.entity.query.SubjectQuery;
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

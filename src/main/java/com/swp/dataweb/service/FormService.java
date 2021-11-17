@@ -3,7 +3,7 @@ package com.swp.dataweb.service;
 import com.swp.dataweb.dao.FormMapper;
 import com.swp.dataweb.dao.TDataMapper;
 import com.swp.dataweb.entity.Form;
-import com.swp.dataweb.entity.FormQuery;
+import com.swp.dataweb.entity.query.FormQuery;
 import com.swp.dataweb.entity.User;
 import com.swp.dataweb.entity.response.Status;
 import com.swp.dataweb.entity.response.SysResult;

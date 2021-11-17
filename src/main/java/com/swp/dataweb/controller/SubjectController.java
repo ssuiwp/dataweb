@@ -1,7 +1,7 @@
 package com.swp.dataweb.controller;
 
 import com.swp.dataweb.entity.Subject;
-import com.swp.dataweb.entity.SubjectQuery;
+import com.swp.dataweb.entity.query.SubjectQuery;
 import com.swp.dataweb.entity.UserSubjectType;
 import com.swp.dataweb.entity.response.PageResult;
 import com.swp.dataweb.entity.response.SysResult;

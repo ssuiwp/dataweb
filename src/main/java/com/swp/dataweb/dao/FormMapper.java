@@ -1,6 +1,7 @@
 package com.swp.dataweb.dao;
 
 import com.swp.dataweb.entity.*;
+import com.swp.dataweb.entity.query.FormQuery;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

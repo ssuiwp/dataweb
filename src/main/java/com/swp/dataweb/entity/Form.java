@@ -1,5 +1,6 @@
 package com.swp.dataweb.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@TableName("form")
 public class Form extends BaseEntity {
 
     private Long id;//表单id

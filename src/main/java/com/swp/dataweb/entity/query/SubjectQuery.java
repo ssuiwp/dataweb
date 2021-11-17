@@ -1,8 +1,9 @@
-package com.swp.dataweb.entity;
+package com.swp.dataweb.entity.query;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
@@ -11,16 +12,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FormQuery implements Serializable {
+public class SubjectQuery implements Serializable {
 
-    //表单id
+    //课题id
+    @JsonProperty("id")
     private Long id;
-    //所属课题id
-    private Long subjectId;
-    //表单名称
-    private String formName;
-    //创建人
-    private String creator;
 
     //课题名称
     @JsonProperty("name")

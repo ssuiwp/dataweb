@@ -1,17 +1,15 @@
 package com.swp.dataweb.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.swp.dataweb.dao.FormMapper;
 import com.swp.dataweb.dao.SubjectMapper;
 import com.swp.dataweb.dao.SubjectTypeMapper;
 import com.swp.dataweb.entity.Subject;
-import com.swp.dataweb.entity.SubjectQuery;
+import com.swp.dataweb.entity.query.SubjectQuery;
 import com.swp.dataweb.entity.UserSubjectType;
 import com.swp.dataweb.entity.response.PageResult;
 import com.swp.dataweb.entity.response.Status;
 import com.swp.dataweb.entity.response.SysResult;
 import com.swp.dataweb.utils.Utils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
