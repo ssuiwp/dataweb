@@ -1,22 +1,41 @@
 package com.swp.dataweb.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class FormQuery implements Serializable {
 
     //表单id
-    private List<Long> formIds;
-    //所属课题名
-    private List<String> subjectNames;
+    private Long id;
+    //所属课题id
+    private Long subjectId;
     //表单名称
-    private List<String> formNames;
-    //所属课题组id
-    private List<Long> subjectIds;
+    private String formName;
     //创建人
-    private List<String> creators;
+    private String creator;
 
+    //课题名称
+    @JsonProperty("name")
+    private String subjectName;
+    //课题类型
+    @JsonProperty("type")
+    private String subjectType;
+    //课题单位
+    @JsonProperty("unit")
+    private String unit;
+    //创建人
+    @JsonProperty("owner")
+    private String owners;
+    @JsonProperty("size")
+    private int size;
+    @JsonProperty("current")
+    private int current;
 }

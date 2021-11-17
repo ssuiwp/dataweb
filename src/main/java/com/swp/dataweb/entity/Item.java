@@ -30,4 +30,5 @@ public class Item extends BaseEntity {
     private String postscript;//问项描述
     private String creator;
 
+    private Long userId;
 }
