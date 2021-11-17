@@ -74,7 +74,7 @@ public class FormService {
         if(isEmpty(form.getName())){
             return SysResult.error(Status.FORM_NAME_EMPTY);
         }
-        if(isEmpty(form.getSubject().getName())){
+        if(isEmpty(form.getSubject().getSubjectName())){
             return SysResult.error(Status.FORM_SUBJECT_EMPTY);
         }
         form.setCreator(user.getUsername());

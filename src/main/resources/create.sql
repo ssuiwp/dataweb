@@ -1,4 +1,5 @@
 -- 课题表（每个课题下面有多个表单）
+drop table if exists subject;
 CREATE TABLE subject
 (
     id           bigint PRIMARY KEY AUTO_INCREMENT COMMENT '课题编号',
@@ -9,9 +10,9 @@ CREATE TABLE subject
     created      datetime default current_timestamp COMMENT '登记日期',
     updated      datetime default current_timestamp
         on update current_timestamp COMMENT '更新日期',
-    state        int(1) COMMENT '目前状态',
+    state        varchar(8) COMMENT '目前状态',
     postscript   varchar(128) COMMENT '备注',
-
+    user_id      bigint comment '用户id',
     INDEX subject_created_index (created),
     INDEX subject_updated_index (updated),
     INDEX subject_name_index (subject_name)
@@ -20,11 +21,13 @@ CREATE TABLE subject
   AUTO_INCREMENT = 1;
 
 -- 表单表（多个表单属于同一课题）（未完成）
+drop table if exists form;
 CREATE TABLE form
 (
     id           bigint PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
     form_name    varchar(32) COMMENT '表单名称',
     subject_name varchar(32) COMMENT '课题名称',
+    subject_id   bigint      comment '课题id',
     creator      varchar(16) COMMENT '登记人',
     created      datetime default current_timestamp COMMENT '登记时间',
     updated      datetime default current_timestamp
@@ -40,6 +43,7 @@ CREATE TABLE form
   AUTO_INCREMENT = 1;
 
 -- 问项表（问项组成了表单）(未完成)
+drop table if exists item;
 CREATE TABLE item
 (
     id         bigint PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
@@ -52,9 +56,10 @@ CREATE TABLE item
     created      datetime default current_timestamp COMMENT '登记时间',
     updated      datetime default current_timestamp
         on update current_timestamp COMMENT '更新时间',
-
+    user_id bigint comment '用户id',
     INDEX item_name_index (item_name),
-    INDEX item_title_index (title)
+    INDEX item_title_index (title),
+    index item_user_id_index(user_id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   AUTO_INCREMENT = 1;
@@ -69,7 +74,6 @@ create table form_item
     created datetime default current_timestamp COMMENT '登记时间',
     updated datetime default current_timestamp
         on update current_timestamp COMMENT '更新时间',
-
 
     index form_id_index (form_id),
     index item_id_index (item_id),
@@ -103,6 +107,7 @@ create table user
 (
     id       bigint primary key auto_increment comment '主键',
     username varchar(32) comment '用户名',
+    nickname varchar(16) comment '昵称',
     password varchar(64) comment '用户密码',
     email    varchar(32) comment '用户邮箱',
     iphone   varchar(15) comment '手机号',
@@ -129,10 +134,11 @@ create table user_item
 
 
 -- 课题类型(用户自定义)
+drop table if exists user_subject_type;
 create table user_subject_type
 (
     id      bigint primary key auto_increment comment '主键',
-    user_id varchar(32) comment '表单id',
+    user_id bigint comment '表单id',
     subject_type varchar(32) comment '课题类型',
     created datetime default current_timestamp COMMENT '登记时间',
     updated datetime default current_timestamp

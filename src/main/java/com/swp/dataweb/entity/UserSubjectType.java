@@ -3,6 +3,7 @@ package com.swp.dataweb.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -20,6 +21,7 @@ public class UserSubjectType extends BaseEntity{
     private Long id;
     private Long userId;
     @NotBlank(message = "课题类型为空")
+    @JsonProperty("name")
     private String subjectType;
 
 

@@ -112,7 +112,7 @@ public interface FormMapper {
      * 删除表单的同时删除表单问项关联表内
      * 同时也要删除表单对应的数据
      */
-    @Delete("delete from item_form_relation where form_id = #{formId}")
+    @Delete("delete from form_item where form_id = #{formId}")
     int deleteRelation(@Param("formId") Long formId);
 
     /**

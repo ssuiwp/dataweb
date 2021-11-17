@@ -4,7 +4,6 @@ import com.swp.dataweb.entity.User;
 import com.swp.dataweb.entity.UserDesc;
 import com.swp.dataweb.entity.response.SysResult;
 import com.swp.dataweb.service.UserService;
-import com.swp.dataweb.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
@@ -62,14 +61,15 @@ public class UserController {
      * 获取用户信息
      * @return
      */
-    @GetMapping("/userDesc")
+    @PostMapping("/userDesc")
     public SysResult findUserDesc() {
         User result = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDesc user = new UserDesc()
                 .setUsername(result.getUsername())
                 .setEmail(result.getEmail())
                 .setId(result.getId())
-                .setIphone(result.getIphone());
+                .setIphone(result.getIphone())
+                .setNickname(result.getNickname());
         return SysResult.success(user);
     }
 
