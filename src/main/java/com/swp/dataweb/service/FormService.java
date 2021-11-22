@@ -1,19 +1,20 @@
 package com.swp.dataweb.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.swp.dataweb.dao.FormMapper;
 import com.swp.dataweb.dao.TDataMapper;
 import com.swp.dataweb.entity.Form;
 import com.swp.dataweb.entity.query.FormQuery;
-import com.swp.dataweb.entity.User;
+import com.swp.dataweb.entity.response.PageResult;
 import com.swp.dataweb.entity.response.Status;
 import com.swp.dataweb.entity.response.SysResult;
+import com.swp.dataweb.utils.Utils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
-
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Service
 public class FormService {
@@ -23,32 +24,38 @@ public class FormService {
     private TDataMapper tDataMapper;
 
 
-
     /**
      * 创建表单和表单与问项关联表
+     *
      * @param form 表单
      */
-    @Transactional
-    public SysResult<Form> createForm(Form form) {
-//        SysResult<Form> SysResult = checkForm(form);
-//        if (SysResult != null) {
-//            return SysResult;
-//        }
-        formMapper.addRelation(form);
-        formMapper.addForm(form);
-        return SysResult.success(form);
+    @Transactional(rollbackFor = Exception.class)
+    public SysResult createForm(Form form) throws Exception {
+        form.setCreator(Utils.getNickName());
+        int i = formMapper.insert(form);
+        if (i == 1) {
+            int j = formMapper.addRelation(form);
+            if (j > 0) {
+                return SysResult.success();
+            }
+        }
+        throw new Exception("表单添加失败");
     }
 
     /**
      * 更新表单
      */
-    @Transactional
-    public SysResult<Form> updateForm(Form form){
-
-
-        formMapper.updateRelation(form);
-        formMapper.updateForm(form);
-        return SysResult.success(form);
+    @Transactional(rollbackFor = Exception.class)
+    public SysResult updateForm(Form form) throws Exception {
+        int i = formMapper.updateById(form);
+        if (i == 1) {
+            int i1 = formMapper.deleteRelation(form.getId());
+            if(i1>0){
+                int i2 = formMapper.addRelation(form);
+                if(i2>0)return SysResult.success();
+            }
+        }
+        throw new Exception("表单更新失败");
     }
 
 
@@ -56,37 +63,24 @@ public class FormService {
      * 查找表单
      */
     @Transactional
-    public SysResult obtainForm(FormQuery query){
-        List<Form> forms = formMapper.getForm(query);
-//        PageInfo p = new PageInfo();
-        int total = formMapper.getTotal();
-//        p.setTotal(total);
-        return SysResult.success(Status.SUCCESS,null);
-    }
-
-    /**
-     * 检测表单
-     * @param user 用户
-     * @param form 表单
-     * @return 如果没有返回null
-     */
-    public static SysResult<Form> checkForm(User user, Form form){
-        if(isEmpty(form.getName())){
-            return SysResult.error(Status.FORM_NAME_EMPTY);
-        }
-        if(isEmpty(form.getSubject().getSubjectName())){
-            return SysResult.error(Status.FORM_SUBJECT_EMPTY);
-        }
-        form.setCreator(user.getUsername());
-        return null;
+    public SysResult obtainForm(FormQuery query) {
+        PageResult page = new PageResult();
+        page.setTotal((long) formMapper.getTotal(query.getSubjectId()));
+        long start = query.getSize() * (query.getCurrent() - 1);
+//        System.out.println(query);
+        List<Form> forms = formMapper
+                .getForms(query.getFormName(), start, query.getSubjectId(), query.getSize());
+//        System.out.println(forms);
+        page.setRaws(forms);
+        return SysResult.success(Status.SUCCESS, page);
     }
 
     /**
      * 删除表单
      */
     @Transactional
-    public SysResult deleteForm(Form form){
-        if(form != null){
+    public SysResult deleteForm(Form form) {
+        if (form != null) {
             int i2 = formMapper.deleteForm(form.getId());
             int i1 = formMapper.deleteRelation(form.getId());
             int i = tDataMapper.deleteTData(form.getId());
@@ -96,5 +90,12 @@ public class FormService {
             return SysResult.success(Status.SUCCESS);
         }
         return SysResult.error(Status.FAILURE);
+    }
+
+    public SysResult findAll(Long subjectId) {
+        List<Form> list = formMapper.selectList(
+                new QueryWrapper<Form>().eq("subject_id",subjectId)
+        );
+        return SysResult.success(list);
     }
 }

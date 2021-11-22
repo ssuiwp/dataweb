@@ -1,11 +1,10 @@
 package com.swp.dataweb.service;
 
-import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.swp.dataweb.dao.ItemMapper;
 import com.swp.dataweb.entity.Item;
-import com.swp.dataweb.entity.MultiItemQuery;
-import com.swp.dataweb.entity.UserSubjectType;
+import com.swp.dataweb.entity.query.ItemQuery;
+import com.swp.dataweb.entity.response.PageResult;
 import com.swp.dataweb.entity.response.Status;
 import com.swp.dataweb.entity.response.SysResult;
 import com.swp.dataweb.utils.Utils;
@@ -16,8 +15,6 @@ import javax.annotation.Resource;
 
 
 import java.util.List;
-
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Service
 public class ItemService {
@@ -33,11 +30,10 @@ public class ItemService {
      */
     @Transactional
     public boolean addItem(Item item) {
-        item.setCreator(Utils.getUserName());
+        item.setCreator(Utils.getNickName());
+        item.setUserId(Utils.getUserId());
         int row1 = itemMapper.insert(item);
-//        Item one = itemMapper.selectOne(new QueryWrapper<>(item));
-        int row2 = itemMapper.addItem(Utils.getUserId(), item.getId());
-        return row1 == 1 && row2 == 1;
+        return row1 == 1;
     }
 
     /**
@@ -47,23 +43,38 @@ public class ItemService {
      * @return
      */
     @Transactional
-    public SysResult obtainMultiItem(MultiItemQuery query) {
-        List<Item> multiItems = itemMapper.getMultiItem(query);
-//        PageInfo p = new PageInfo();
-//        p.setTotal(multiItemMapper.getTotal());
-        return SysResult.success(Status.SUCCESS, null);
+    public SysResult obtainItem(ItemQuery query) {
+        PageResult page = new PageResult();
+        page.setTotal((long) itemMapper.getTotal(Utils.getUserId()));
+        long start = query.getSize() * (query.getCurrent() - 1);
+        List<Item> items = itemMapper.getItems(query, start,Utils.getUserId());
+        page.setRaws(items);
+
+        return SysResult.success(Status.SUCCESS, page);
     }
 
-    private static SysResult checkMultiItem(/*User user,*/ Item item) {
-        if (isEmpty(item.getItemName())) {
-            return SysResult.error(Status.SUBJECT_NAME_EMPTY);
+    public boolean deleteItem(Long itemId) {
+        int row = itemMapper.deleteById(itemId);
+        return row == 1;
+    }
+
+    public SysResult updateItem(Item item) {
+        int i = itemMapper.updateById(item);
+        if (i == 1) {
+            return SysResult.success(item);
         }
-        return null;
+        return SysResult.error();
     }
 
-    public List<Item> findItem(String itemName) {
+    public SysResult findAll() {
+        List<Item> list = itemMapper.selectList(
+                new QueryWrapper<Item>().eq("user_id",Utils.getUserId()
+        ));
+        return SysResult.success(list);
+    }
 
-        List<Item> item = itemMapper.findItem(Utils.getUserId(),itemName);
-        return item;
+    public SysResult getItem(long formId) {
+        List<Item> list = itemMapper.getItem(formId);
+        return SysResult.success(list);
     }
 }

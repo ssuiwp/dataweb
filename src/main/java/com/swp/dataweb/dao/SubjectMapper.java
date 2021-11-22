@@ -38,7 +38,7 @@ public interface SubjectMapper extends BaseMapper<Subject> {
             "   FROM " +
             "       subject " +
             "   WHERE " +
-            "       1 = 1 and user_id = #{userId}" +
+            "       user_id = #{userId}" +
             "       <if test='query.subjectName != null &amp;&amp; query.subjectName.length()>0'> " +
 //            "           <foreach collection='query.subjectName' item='sname' separator=',' open='(' close=')'> " +
             "           AND subject_name like " +

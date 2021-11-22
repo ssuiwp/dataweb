@@ -5,10 +5,10 @@ import com.swp.dataweb.entity.query.FormQuery;
 import com.swp.dataweb.entity.response.Status;
 import com.swp.dataweb.entity.response.SysResult;
 import com.swp.dataweb.service.FormService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("form")
+@Slf4j
 public class FormController {
 
     @Resource
@@ -27,41 +28,47 @@ public class FormController {
      * @param form 表单
      * @return 创建表单成功
      */
-    @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public SysResult<Form> createForm(@RequestBody Form form){
-        if(form == null){
-            return SysResult.error(Status.FORM_EMPTY);
+    @PostMapping(value = "/add")
+    public SysResult createForm(@Validated @RequestBody Form form){
+        try {
+            return formService.createForm(form);
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
-        return formService.createForm(form);
+        return SysResult.error(Status.FAILURE,"表单添加失败",null);
     }
 
     /**
-     * 查询表单
+     * 分页查询表单
      */
-    @PostMapping(value = "/query", consumes = "application/json", produces = "application/json")
-    public SysResult<List<Form>> obtainForm(@RequestBody FormQuery query){
-        if(query == null){
-            return SysResult.error(Status.FORM_QUERY_EMPTY);
-        }
+    @PostMapping(value = "/query")
+    public SysResult obtainForm(@RequestBody FormQuery query){
+
         return formService.obtainForm(query);
+    }
+
+    @GetMapping("findAll/{subjectId}")
+    public SysResult findAll(@PathVariable Long subjectId){
+        return formService.findAll(subjectId);
     }
 
     /**
      * 更新表单
      */
-    @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
-    public SysResult<Form> updateForm(@RequestBody  Form form){
-        if(form == null){
-            return SysResult.error(Status.FORM_EMPTY);
+    @PostMapping(value = "/update")
+    public SysResult updateForm(@RequestBody  Form form){
+        try {
+            return formService.updateForm(form);
+        } catch (Exception e) {
+            log.error("表单添加失败");
         }
-
-        return formService.updateForm(form);
+        return SysResult.error();
     }
 
     /**
      * 删除表单
      */
-    @PostMapping(value = "/delete", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/delete")
     public SysResult deleteForm(@RequestBody Form form){
         if(form == null){
             return SysResult.error(Status.FORM_EMPTY);

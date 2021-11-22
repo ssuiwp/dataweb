@@ -1,8 +1,10 @@
 package com.swp.dataweb.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.swp.dataweb.dao.FormMapper;
 import com.swp.dataweb.dao.SubjectMapper;
 import com.swp.dataweb.dao.SubjectTypeMapper;
+import com.swp.dataweb.dao.TDataMapper;
 import com.swp.dataweb.entity.Subject;
 import com.swp.dataweb.entity.query.SubjectQuery;
 import com.swp.dataweb.entity.UserSubjectType;
@@ -27,6 +29,8 @@ public class SubjectService {
     private FormMapper formMapper;
     @Resource
     private SubjectTypeMapper subjectTypeMapper;
+    @Resource
+    private TDataMapper dataMapper;
 
     @Transactional
     public boolean createSubject(/*User user,*/Subject subject) {
@@ -58,6 +62,7 @@ public class SubjectService {
         List<Long> formIds = formMapper.getFormId(id);
         for (Long formId : formIds) {
             formMapper.deleteRelation(formId);
+            dataMapper.deleteTData(formId);
             formMapper.deleteForm(formId);
         }
         subjectMapper.deleteSubject(id);
@@ -88,5 +93,21 @@ public class SubjectService {
     public boolean deleteType(long id) {
         int i = subjectTypeMapper.deleteById(id);
         return i==1;
+    }
+
+    public SysResult findIdAndName() {
+        List<Subject> subjects = subjectMapper.selectList(
+                new QueryWrapper<Subject>().eq("user_id", Utils.getUserId())
+        );
+        return SysResult.success(subjects);
+    }
+
+    public PageResult findAllType(PageResult type) {
+        List<UserSubjectType> list =
+                subjectTypeMapper.selectList(
+                        new QueryWrapper<UserSubjectType>()
+                                .eq("user_id",Utils.getUserId()));
+        type.setRaws(list);
+        return type;
     }
 }

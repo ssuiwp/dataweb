@@ -44,6 +44,11 @@ public class SubjectController {
         return subjectService.obtainSubject(query);
     }
 
+    @GetMapping("getSubjectIN")
+    public SysResult findIdAndName() {
+        return subjectService.findIdAndName();
+    }
+
     /**
      * 更新课程
      *
@@ -79,9 +84,16 @@ public class SubjectController {
         }
         return SysResult.error();
     }
+
+    @PostMapping("/findAllType")
+    public SysResult findAllType(@RequestBody PageResult type){
+        type =  subjectService.findAllType(type);
+        return SysResult.success(type);
+    }
+
     /** 分页查询课题类型 */
     @PostMapping("/type")
-    public SysResult addType(@RequestBody PageResult type){
+    public SysResult findType(@RequestBody PageResult type){
         type =  subjectService.findType(type);
         return SysResult.success(type);
     }

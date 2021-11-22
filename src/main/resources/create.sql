@@ -49,9 +49,8 @@ CREATE TABLE item
     id         bigint PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
     item_name  varchar(32) COMMENT '问项名称',
     title      varchar(32) COMMENT '问项标题',
-    options    varchar(16) COMMENT '问项选项',
+    options    varchar(128) COMMENT '问项选项',
     type       varchar(16) COMMENT '问项类型',
-    postscript varchar(128) COMMENT '表单描述',
     creator    varchar(16) comment '登记人',
     created      datetime default current_timestamp COMMENT '登记时间',
     updated      datetime default current_timestamp
@@ -83,12 +82,13 @@ create table form_item
   AUTO_INCREMENT = 1;
 
 -- 问项数据(通过form——id 和item——id来获取)
+drop table if exists data;
 create table data
 (
     id      bigint primary key auto_increment comment '主键',
     form_id varchar(32) comment '表单id',
     item_id varchar(32) comment '问项id',
-    data    varchar(64) comment '问项数据',
+    data    varchar(512) comment '问项数据',
     created datetime default current_timestamp COMMENT '登记时间',
     updated datetime default current_timestamp
         on update current_timestamp COMMENT '更新时间',
@@ -163,31 +163,31 @@ create table user_subject_type
 #   AUTO_INCREMENT = 1;
 
 
--- 课题与用户关联:(创建用户与课题联系)
-create table user_subject
-(
-    id      bigint primary key auto_increment comment '主键',
-    user_id varchar(32) comment '用户id',
-    subject_id varchar(32) comment '课题id',
-    created datetime default current_timestamp COMMENT '登记时间',
-    updated datetime default current_timestamp
-        on update current_timestamp COMMENT '更新时间',
-    UNIQUE INDEX (user_id, item_id)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 1;
+# -- 课题与用户关联:(创建用户与课题联系)
+# create table user_subject
+# (
+#     id      bigint primary key auto_increment comment '主键',
+#     user_id varchar(32) comment '用户id',
+#     subject_id varchar(32) comment '课题id',
+#     created datetime default current_timestamp COMMENT '登记时间',
+#     updated datetime default current_timestamp
+#         on update current_timestamp COMMENT '更新时间',
+#     UNIQUE INDEX (user_id, item_id)
+# ) ENGINE = InnoDB
+#   DEFAULT CHARSET = utf8
+#   AUTO_INCREMENT = 1;
 
 
--- 课题与表单关联:(创建表单与课题联系)
-create table subject_form
-(
-    id      bigint primary key auto_increment comment '主键',
-    form_id varchar(32) comment '用户id',
-    subject_id varchar(32) comment '课题id',
-    created datetime default current_timestamp COMMENT '登记时间',
-    updated datetime default current_timestamp
-        on update current_timestamp COMMENT '更新时间',
-    UNIQUE INDEX (user_id, item_id)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 1;
+# -- 课题与表单关联:(创建表单与课题联系)
+# create table subject_form
+# (
+#     id      bigint primary key auto_increment comment '主键',
+#     form_id varchar(32) comment '用户id',
+#     subject_id varchar(32) comment '课题id',
+#     created datetime default current_timestamp COMMENT '登记时间',
+#     updated datetime default current_timestamp
+#         on update current_timestamp COMMENT '更新时间',
+#     UNIQUE INDEX (user_id, item_id)
+# ) ENGINE = InnoDB
+#   DEFAULT CHARSET = utf8
+#   AUTO_INCREMENT = 1;

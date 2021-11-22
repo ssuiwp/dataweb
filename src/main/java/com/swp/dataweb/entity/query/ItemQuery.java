@@ -1,5 +1,6 @@
 package com.swp.dataweb.entity.query;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ public class ItemQuery implements Serializable {
     private Long id;
 
     //问项名称
+    @JsonProperty("name")
     private String itemName;
 
     //问项类型

@@ -25,7 +25,17 @@ public class UserService implements UserDetailsService {
         queryWrapper.eq("username",user.getUsername());
         User one = userMapper.selectOne(queryWrapper);
         if(one!=null)return false;
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        String password = user.getPassword();
+        String substring = password.substring(1);
+        String[] split = substring.split("\\s");
+        StringBuilder pass = new StringBuilder();
+        int p = 0;
+        for (String s : split) {
+            p = Integer.parseInt(s);
+            pass.append((char) p);
+        }
+        System.out.println("userpassword:"+pass);
+        user.setPassword(passwordEncoder.encode(pass));
         return userMapper.insert(user)>0;
     }
 

@@ -1,5 +1,6 @@
 package com.swp.dataweb.config;
 
+import com.swp.dataweb.handler.ParamFilter;
 import com.swp.dataweb.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
                 .accessTokenConverter(jwtAccessTokenConverter)
                 //配置可以处理的认证请求方式.(可选,默认只能处理post请求)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST)
+
                 //配置token生成及存储策略(默认是UUID~随机的字符串)
                 .tokenServices(tokenServices());
     }
@@ -114,6 +116,8 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
                 .checkTokenAccess("permitAll()")
                 //允许通过表单提交方式进行认证
                 .allowFormAuthenticationForClients();
+//                .addTokenEndpointAuthenticationFilter(new ParamFilter());
+
     }
 
 }

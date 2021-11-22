@@ -1,5 +1,6 @@
 package com.swp.dataweb.config;
 
+import com.swp.dataweb.handler.RequestParameterWrapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -64,7 +65,9 @@ public class CorsConfig implements Filter {
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
-            filterChain.doFilter(req, resp);
+
+            ;
+            filterChain.doFilter(new RequestParameterWrapper(request), resp);
         }
     }
 

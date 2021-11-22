@@ -22,4 +22,5 @@ public class FormQuery implements Serializable {
     private int size;
 
     private int current;
+
 }

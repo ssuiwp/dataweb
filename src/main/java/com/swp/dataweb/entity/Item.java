@@ -19,6 +19,7 @@ public class Item extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;//问项id
     @NotBlank(message = "问项名称不能为空")
+    @JsonProperty("name")
     private String itemName;//问项名称
     @NotBlank(message = "问项标题不能为空")
     private String title;//问项标题
@@ -27,7 +28,7 @@ public class Item extends BaseEntity {
     //（类型：0数字，1单选，2多选，3文字，4日期，5时间，6其他）
     @NotBlank(message = "问项选项不能为空")
     private String type;//问项类型（一个类型下可以接受多个选项）
-    private String postscript;//问项描述
+
     private String creator;
 
     private Long userId;

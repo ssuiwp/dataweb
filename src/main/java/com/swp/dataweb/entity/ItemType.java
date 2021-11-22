@@ -5,13 +5,13 @@ package com.swp.dataweb.entity;
  *
  */
 public enum ItemType {
-    FIGURE("数字",0),
-    MULTIPLE("单选",1),
-    MULTISELECT("多选",2),
-    CHARACTER("文字",3),
-    DATE("日期",4),
-    TIME("时间",5),
-    ELSE("其他",6);
+    FIGURE("数字",1),
+    MULTIPLE("单选",2),
+    MULTISELECT("多选",3),
+    CHARACTER("文字",4),
+    DATE("日期",5),
+    TIME("时间",6),
+    ELSE("其他",7);
 
     private final String name;
     private final int index;

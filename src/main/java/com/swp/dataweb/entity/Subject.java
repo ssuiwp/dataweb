@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * 课题组，每个课题组下有多个form
@@ -47,4 +48,6 @@ public class Subject extends BaseEntity {
     private String postscript;
 
     private Long userId;
+    @TableField(exist = false)
+    private List<Form> children;
 }

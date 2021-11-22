@@ -2,6 +2,7 @@ package com.swp.dataweb.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swp.dataweb.entity.response.SysResult;
+import com.swp.dataweb.handler.ParamFilter;
 import com.swp.dataweb.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -69,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 清除身份验证
                 .clearAuthentication(true)
                 .permitAll();
+//        http.addFilterAt(new ParamFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 //    @Bean
 //    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
