@@ -1,3 +1,5 @@
+-- 阿里云数据库密码 C-y-/CF-7)Qo
+
 -- 课题表（每个课题下面有多个表单）
 drop table if exists subject;
 CREATE TABLE subject
@@ -50,7 +52,7 @@ CREATE TABLE item
     item_name  varchar(32) COMMENT '问项名称',
     title      varchar(32) COMMENT '问项标题',
     options    varchar(128) COMMENT '问项选项',
-    type       varchar(16) COMMENT '问项类型',
+    type       varchar(32) COMMENT '问项类型',
     creator    varchar(16) comment '登记人',
     created      datetime default current_timestamp COMMENT '登记时间',
     updated      datetime default current_timestamp
