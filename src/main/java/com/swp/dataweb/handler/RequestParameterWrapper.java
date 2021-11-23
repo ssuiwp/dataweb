@@ -1,5 +1,6 @@
 package com.swp.dataweb.handler;
 
+import com.swp.dataweb.utils.Utils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 //@Component
 public class RequestParameterWrapper extends HttpServletRequestWrapper {
     private Map<String, String[]> params = new HashMap<>();
@@ -19,21 +21,9 @@ public class RequestParameterWrapper extends HttpServletRequestWrapper {
         String grant_type = request.getParameter("grant_type");
         if ("password".equalsIgnoreCase(grant_type)) {
             String password = request.getParameter("password");
-            String[] chars = password.split("\\s");
-            StringBuilder p = new StringBuilder();
-            for (String aChar : chars) {
-                p.append(String.valueOf((char) Integer.parseInt(aChar)));
-            }
-            int salt1 = Integer.parseInt(String.valueOf(p.toString().charAt(0)));
-            String q = p.substring(1);
-            String date = new SimpleDateFormat("hhmm").format(new Date());
-            boolean equals = date.equals(q.substring(salt1, salt1 + 4));
-            if(equals) {
-                String s2 = q.substring(0, salt1) + p.substring(salt1 + 5);
-                addParameter("password", s2);
-            }else{
-                addParameter("password","");
-            }
+            String s = Utils.checkAndGetPassword(password);
+            System.out.println("cors:::"+s);
+            addParameter("password", s);
         }
 
     }

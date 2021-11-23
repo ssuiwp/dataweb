@@ -3,6 +3,7 @@ package com.swp.dataweb.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.swp.dataweb.dao.UserMapper;
 import com.swp.dataweb.entity.User;
+import com.swp.dataweb.utils.Utils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -22,20 +25,12 @@ public class UserService implements UserDetailsService {
     @Transactional
     public boolean addUser(User user) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        String password = user.getPassword();
         queryWrapper.eq("username",user.getUsername());
         User one = userMapper.selectOne(queryWrapper);
         if(one!=null)return false;
-        String password = user.getPassword();
-        String substring = password.substring(1);
-        String[] split = substring.split("\\s");
-        StringBuilder pass = new StringBuilder();
-        int p = 0;
-        for (String s : split) {
-            p = Integer.parseInt(s);
-            pass.append((char) p);
-        }
-        System.out.println("userpassword:"+pass);
-        user.setPassword(passwordEncoder.encode(pass));
+        String password1 = Utils.getPassword(password);
+        user.setPassword(passwordEncoder.encode(password1));
         return userMapper.insert(user)>0;
     }
 

@@ -67,7 +67,8 @@ public class CorsConfig implements Filter {
         } else {
 
             ;
-            filterChain.doFilter(new RequestParameterWrapper(request), resp);
+//            filterChain.doFilter(new RequestParameterWrapper(request), resp);
+            filterChain.doFilter(request, resp);
         }
     }
 

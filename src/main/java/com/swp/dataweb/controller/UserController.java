@@ -35,7 +35,7 @@ public class UserController {
     @PostMapping("/register")
     public SysResult addUser(@Validated @RequestBody User user) {
         boolean result = userService.addUser(user);
-        log.info(String.valueOf(user));
+//        log.info(String.valueOf(user));
         if (result) {
             return SysResult.success();
         }
