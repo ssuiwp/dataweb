@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
 @TableName("subject")
 public class Subject extends BaseEntity {
     //课题组编号
@@ -48,6 +50,7 @@ public class Subject extends BaseEntity {
     private String postscript;
 
     private Long userId;
+    //所有的表单
     @TableField(exist = false)
     private List<Form> children;
 }

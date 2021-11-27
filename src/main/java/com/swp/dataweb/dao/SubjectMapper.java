@@ -92,10 +92,6 @@ public interface SubjectMapper extends BaseMapper<Subject> {
     @Delete("delete from subject where id = #{id}")
     int deleteSubject(@Param("id") Long subjectId);
 
-    /**
-     * 通过课题查询form
-     */
 
-
-
+    List<Subject> selectPartnerSubject(Long userId);
 }

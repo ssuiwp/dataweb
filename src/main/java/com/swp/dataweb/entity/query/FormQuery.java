@@ -16,6 +16,8 @@ public class FormQuery implements Serializable {
     //所属课题id //进入表单管理直接查询该用户所有的表单 并传递表单名与表单id
     //同时查询该用户所有问项, 添加表单需要与问项简历关联
     private Long subjectId;
+
+    private String subjectName;
     //表单名称
     private String formName;
 

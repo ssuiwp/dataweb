@@ -16,6 +16,9 @@ public enum Status {
     SUBJECT_QUERY_EMPTY(-11, "subject query information empty ......."),
     SUBJECT_NAME_EMPTY(-12, "missing subject name ......."),
     SUBJECT_UNIT_EMPTY(13, "missing subject unit ......."),
+    SUBJECT_REPEAT(-14, "重复添加课题"),
+    SUBJECT_PARTNER_REPEAT(-15, "重复添加合伙人"),
+    NOT_MY_SUBJECT(-16,"没有权限"),
 
     // form
     FORM_EMPTY(-20, "form information empty ......."),

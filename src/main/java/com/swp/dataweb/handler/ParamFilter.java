@@ -1,5 +1,6 @@
 package com.swp.dataweb.handler;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -8,7 +9,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+@Deprecated
 /**
  * 请求设置
  */

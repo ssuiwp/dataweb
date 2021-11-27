@@ -41,4 +41,5 @@ public class ValidatedExceptionHandler {
         }
         return SysResult.error(Status.FAILURE,stringBuilder.toString(),null);
     }
+
 }

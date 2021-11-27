@@ -68,7 +68,7 @@ public class SysResult<T> implements Serializable {
         return new SysResult<T>(Status.FAILURE);
     }
     public static <T> SysResult<T> error(Status status,T data){
-        return new SysResult<T>(Status.FAILURE,data);
+        return new SysResult<T>(status.getCode(),status.getDesc(),data);
     }
     public static <T> SysResult<T> error(Status status,String msg,T data){
         return new SysResult<T>(status.getCode(),msg,data);

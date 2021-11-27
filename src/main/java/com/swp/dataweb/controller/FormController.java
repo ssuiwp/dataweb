@@ -1,18 +1,15 @@
 package com.swp.dataweb.controller;
 
-import com.swp.dataweb.entity.*;
+import com.swp.dataweb.entity.Form;
 import com.swp.dataweb.entity.query.FormQuery;
 import com.swp.dataweb.entity.response.Status;
 import com.swp.dataweb.entity.response.SysResult;
 import com.swp.dataweb.service.FormService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-
-import java.util.List;
 
 
 @RestController

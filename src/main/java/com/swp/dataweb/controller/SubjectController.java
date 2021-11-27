@@ -3,6 +3,7 @@ package com.swp.dataweb.controller;
 import com.swp.dataweb.entity.Subject;
 import com.swp.dataweb.entity.query.SubjectQuery;
 import com.swp.dataweb.entity.UserSubjectType;
+import com.swp.dataweb.entity.request.SubjectPartner;
 import com.swp.dataweb.entity.response.PageResult;
 import com.swp.dataweb.entity.response.SysResult;
 import com.swp.dataweb.service.SubjectService;
@@ -105,5 +106,26 @@ public class SubjectController {
             return SysResult.success();
         }
         return SysResult.error();
+    }
+
+
+    /**
+     * 添加合伙人
+     */
+    @PostMapping("/addPartner")
+    public SysResult addPartner(@RequestBody SubjectPartner partner){
+        boolean result = subjectService.addPartner(partner);
+        if(result) {
+            return SysResult.success();
+        }
+        return SysResult.error();
+    }
+    /**
+     * 查询合伙人
+     */
+    @GetMapping("/findPartner/{subjectId}")
+    public SysResult findPartner(@PathVariable Long subjectId){
+        return subjectService.findPartner(subjectId);
+
     }
 }

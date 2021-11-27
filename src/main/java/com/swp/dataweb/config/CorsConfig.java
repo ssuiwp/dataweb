@@ -1,6 +1,5 @@
 package com.swp.dataweb.config;
 
-import com.swp.dataweb.handler.RequestParameterWrapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;

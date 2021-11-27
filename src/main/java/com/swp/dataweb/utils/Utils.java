@@ -1,11 +1,19 @@
 package com.swp.dataweb.utils;
 
 import com.swp.dataweb.entity.User;
+import com.swp.dataweb.entity.response.Status;
+import com.swp.dataweb.exception.SuRuntimeException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class Utils {
     /**
@@ -81,6 +89,31 @@ public class Utils {
             return s.substring(1, salt1 + 1) + s.substring(salt1 + 5);
         } else {
             return "";
+        }
+    }
+
+
+    /**
+     * 对集合进行深拷贝
+     * 注意需要对泛型类进行序列化（实现serializable）
+     *
+     * @param src
+     * @param <T>
+     * @return
+     * @throws ClassNotFoundException
+     */
+    public static <T> List<T> deepCopyList(List<T> src) {
+        try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+             ObjectOutputStream outputStream = new ObjectOutputStream(byteOut);
+        ) {
+            outputStream.writeObject(src);
+            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
+                 ObjectInputStream inputStream = new ObjectInputStream(byteIn);
+            ) {
+                return (List<T>) inputStream.readObject();
+            }
+        } catch (Exception e) {
+            throw new SuRuntimeException(Status.FAILURE);
         }
     }
 }

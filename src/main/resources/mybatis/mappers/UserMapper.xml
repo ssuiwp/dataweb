@@ -4,6 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.swp.dataweb.dao.UserMapper">
 
+    <select id="selectPartnerSubject" resultType="User">
+        select id, username, nickname
+        from user
+        where id in
+              (select user_id
+               from subject_partner
+               where subject_id = #{subjectId})
+    </select>
 
 
 </mapper>

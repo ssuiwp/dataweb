@@ -67,10 +67,8 @@ public class FormService {
         PageResult page = new PageResult();
         page.setTotal((long) formMapper.getTotal(query.getSubjectId()));
         long start = query.getSize() * (query.getCurrent() - 1);
-//        System.out.println(query);
         List<Form> forms = formMapper
                 .getForms(query.getFormName(), start, query.getSubjectId(), query.getSize());
-//        System.out.println(forms);
         page.setRaws(forms);
         return SysResult.success(Status.SUCCESS, page);
     }
@@ -84,9 +82,6 @@ public class FormService {
             int i2 = formMapper.deleteForm(form.getId());
             int i1 = formMapper.deleteRelation(form.getId());
             int i = tDataMapper.deleteTData(form.getId());
-            System.out.println(i2);
-            System.out.println(i1);
-            System.out.println(i);
             return SysResult.success(Status.SUCCESS);
         }
         return SysResult.error(Status.FAILURE);

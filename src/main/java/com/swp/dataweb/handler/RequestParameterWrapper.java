@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 //@Component
 public class RequestParameterWrapper extends HttpServletRequestWrapper {
     private Map<String, String[]> params = new HashMap<>();

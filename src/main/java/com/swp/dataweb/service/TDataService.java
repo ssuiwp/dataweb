@@ -30,7 +30,6 @@ public class TDataService {
     public SysResult createTData(TDataModel tDataModel){
         long formId = tDataModel.getSubjectForm()[1];
         String s = JSON.toJSON(tDataModel.getTData()).toString();
-        System.out.println(s);
         TData data = new TData()
                 .setData(s)
                 .setCreator(Utils.getNickName())
@@ -41,21 +40,20 @@ public class TDataService {
 
 
     public SysResult obtainTData(long formId){
-
-        TData data = tDataMapper.getTData(formId);
-        return SysResult.success(data);
+        List<TData> list = tDataMapper.selectList(
+                new QueryWrapper<TData>().eq("form_id", formId));
+        return SysResult.success(list);
     }
 
 
     public SysResult updateTData(TDataModel tDataModel){
-        long formId = tDataModel.getSubjectForm()[1];
+        long dataId = tDataModel.getSubjectForm()[2];
         String s = JSON.toJSON(tDataModel.getTData()).toString();
         TData data = new TData()
                 .setData(s)
                 .setCreator(Utils.getNickName())
-                .setFormId(formId);
-        tDataMapper.update(data,
-                new QueryWrapper<TData>().eq("form_id",formId));
+                .setId(dataId);
+        tDataMapper.updateById(data);
         return SysResult.success();
     }
 
@@ -64,11 +62,15 @@ public class TDataService {
         List<Subject> subjects = subjectMapper.selectList(
                 new QueryWrapper<Subject>().eq("user_id",Utils.getUserId())
         );
+        List<Subject> selectPartnerSubject = subjectMapper.selectPartnerSubject(Utils.getUserId());
+        subjects.addAll(selectPartnerSubject);
+
         for (Subject subject : subjects) {
             subject.setChildren(formMapper.selectList(
                     new QueryWrapper<Form>().eq("subject_id",subject.getId())
             ));
         }
+
         return SysResult.success(subjects);
     }
 }
