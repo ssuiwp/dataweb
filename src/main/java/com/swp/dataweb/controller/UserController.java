@@ -24,7 +24,7 @@ public class UserController {
     public SysResult test() {
         log.info("测试权限");
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println("principal: " + principal);
+//        System.out.println("principal: " + principal);
 
         return SysResult.success();
     }

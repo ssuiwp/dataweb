@@ -1,10 +1,14 @@
 package com.swp.dataweb.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.swp.dataweb.dao.FormItemMapper;
 import com.swp.dataweb.dao.FormMapper;
+import com.swp.dataweb.dao.ItemMapper;
 import com.swp.dataweb.dao.TDataMapper;
 import com.swp.dataweb.entity.Form;
+import com.swp.dataweb.entity.FormItem;
 import com.swp.dataweb.entity.query.FormQuery;
+import com.swp.dataweb.entity.request.ItemSort;
 import com.swp.dataweb.entity.response.PageResult;
 import com.swp.dataweb.entity.response.Status;
 import com.swp.dataweb.entity.response.SysResult;
@@ -22,6 +26,8 @@ public class FormService {
     private FormMapper formMapper;
     @Resource
     private TDataMapper tDataMapper;
+    @Resource
+    private FormItemMapper formItemMapper;
 
 
     /**
@@ -49,11 +55,12 @@ public class FormService {
     public SysResult updateForm(Form form) throws Exception {
         int i = formMapper.updateById(form);
         if (i == 1) {
-            int i1 = formMapper.deleteRelation(form.getId());
-            if(i1>0){
-                int i2 = formMapper.addRelation(form);
-                if(i2>0)return SysResult.success();
-            }
+//            int i1 = formMapper.deleteRelation(form.getId());
+//            if(i1>0){
+//                int i2 = formMapper.addRelation(form);
+//                if(i2>0)
+            return SysResult.success();
+//            }
         }
         throw new Exception("表单更新失败");
     }
@@ -69,6 +76,7 @@ public class FormService {
         long start = query.getSize() * (query.getCurrent() - 1);
         List<Form> forms = formMapper
                 .getForms(query.getFormName(), start, query.getSubjectId(), query.getSize());
+
         page.setRaws(forms);
         return SysResult.success(Status.SUCCESS, page);
     }
@@ -76,7 +84,7 @@ public class FormService {
     /**
      * 删除表单
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public SysResult deleteForm(Form form) {
         if (form != null) {
             int i2 = formMapper.deleteForm(form.getId());
@@ -88,9 +96,64 @@ public class FormService {
     }
 
     public SysResult findAll(Long subjectId) {
+
         List<Form> list = formMapper.selectList(
-                new QueryWrapper<Form>().eq("subject_id",subjectId)
+                new QueryWrapper<Form>().eq("subject_id", subjectId)
         );
         return SysResult.success(list);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public SysResult updateFormItemSort(ItemSort itemSort) {
+        /** 修改表单关联的itemId对应行的used即可(删除将used改为0) */
+        int i = formMapper.updateRelation(itemSort);
+        if (i > 0) {
+            return SysResult.success();
+        }
+        return SysResult.error();
+    }
+
+    /**
+     * 获取所有关联的问项id
+     */
+    public SysResult getItemIds(Long formId) {
+        List<Long> itemIds = formItemMapper.getItemIds(formId);
+        return SysResult.success(itemIds);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public SysResult addFormItem(Form form) {
+        /**
+         * 添加的时候先判断是不是删除过的  也就是差关联表中是否存在该项与该项的used属性,
+         * 如果used为0就改为1
+         * 如果不存在该问项就添加关联
+         */
+        int insert = 0;
+        FormItem formItem = formItemMapper.selectOne(
+                new QueryWrapper<FormItem>()
+                        .select("id", "used")
+                        .eq("form_id", form.getId())
+                        .eq("item_id", form.getItemIds().get(0))
+        );
+        if (formItem != null) {
+            insert = formItemMapper.updateById(formItem.setUsed(true));
+        } else {
+            form.setCreator(Utils.getNickName());
+            insert = formMapper.addRelation(form);
+        }
+        if (insert == 1) {
+            return SysResult.success();
+        }
+        return SysResult.error();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public SysResult deleteFormItem(Form form) {
+        //修改关联表的used为0
+        int i = formItemMapper.deleteRelation(form, form.getItemIds().get(0));
+        if (i == 1) {
+            return SysResult.success();
+        }
+        return SysResult.error();
     }
 }

@@ -6,6 +6,7 @@ import com.swp.dataweb.entity.TData;
 
 import org.apache.ibatis.annotations.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,16 +18,7 @@ public interface TDataMapper extends BaseMapper<TData> {
     /**
      * 添加数据
      */
-//    @Insert("<script> " +
-//            "   insert into data " +
-//            "       (item_id, form_id, data, creator) " +
-//            "   values (" +
-//            "           <foreach collection='list' item='d' separator=','> " +
-//            "               ( #{d.itemId}, #{d.formId}, #{d.data} ,#{creator})" +
-//            "           </foreach>" +
-//            "       )" +
-//            "</script>")
-//    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+
     @Insert("insert into data" +
             "(form_id,data,creator)" +
             "values(" +
@@ -36,29 +28,6 @@ public interface TDataMapper extends BaseMapper<TData> {
                  @Param("creator") String creator);
 
 
-
-    /**
-     * 查询数据需要查询课表，查询课表相关的表单，查询表单相关的问项，通过表单和问项id锁定问项数据
-     */
-//    @Select(
-//            "SELECT * FROM tData" +
-//                " WHERE " +
-//                    " form_id in " +
-//                " (SELECT id FROM form WHERE subject_id = '#{id}')"
-//    )
-//    @Results(id = "TDataResultMap" , value = {
-//            @Result(column = "form_id", property = "formId"),
-//            @Result(column = "item_id", property = "itemId"),
-//            @Result(column = "create_time", property = "createTime")
-//    })
-    @Select("select id,form_id,data,created,updated,creator from data where form_id = #{formId}")
-    TData getTData(long formId);
-
-//    /**
-//     * 获取数据总数
-//     */
-//    @Select("select count(id) from tdata")
-//    int getTotal();
 
 
 
@@ -89,4 +58,19 @@ public interface TDataMapper extends BaseMapper<TData> {
     @Delete("delete from data where form_id = #{id}")
     int deleteTData(@Param("id") long formId);
 
+    /**
+     * 通过课题id获取所有表单id在通过表单id获取所有的课题数据
+     * @param subjectId
+     */
+    List<TData> getTDataBySubjectId(@Param("subjectId") Long subjectId,
+                                    @Param("startDate") Date startDate,
+                                    @Param("endDate") Date endDate);
+
+
+    /**
+     * 通过表单id获取数据
+     */
+    List<TData> getTDataByFormIds(@Param("formIds") List<Long> formIds,
+                                  @Param("startDate") Date startDate,
+                                  @Param("endDate") Date endDate);
 }

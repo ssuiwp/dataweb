@@ -3,6 +3,7 @@ package com.swp.dataweb.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.swp.dataweb.entity.*;
 import com.swp.dataweb.entity.query.FormQuery;
+import com.swp.dataweb.entity.request.ItemSort;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public interface FormMapper extends BaseMapper<Form> {
      */
     @Select("<script> " +
             "   SELECT " +
-            "       id, form_name, subject_name, creator, created, updated, postscript " +
+            "       id, form_name,subject_id , subject_name, creator, created, updated, postscript " +
             "   FROM " +
             "       form " +
             "   WHERE " +
@@ -76,15 +77,16 @@ public interface FormMapper extends BaseMapper<Form> {
      */
     @Update("<script> " +
 //            "       <if test='form.multiItems != null' >" +
-            "   replace into " +
-            "       form_item (form_id,item_id) " +
-            "   values " +
-            "           <foreach collection='itemIds' item='itemId' separator=','> " +
-            "               ( #{id}, #{itemId} ) " +
+            "   update form_item" +
+            "       <set> " +
+            "           order_num = " +
+            "           <foreach collection='itemSort.itemSorts' item='item' open=\"case item_id\" close=\"else order_num end\" separator=' '> " +
+            "              when #{item.id} then #{item.orderNum}  " +
             "           </foreach> " +
-//            "       </if>" +
+            "    where form_id = #{itemSort.formId};" +
+            "       </set>" +
             "</script> ")
-    int updateRelation(Form form);
+    int updateRelation(@Param("itemSort") ItemSort itemSort);
 
     /**
      * 删除表单

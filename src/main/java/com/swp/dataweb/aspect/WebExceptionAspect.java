@@ -1,5 +1,6 @@
 package com.swp.dataweb.aspect;
 
+import com.swp.dataweb.entity.response.Status;
 import com.swp.dataweb.entity.response.SysResult;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -13,7 +14,7 @@ public class WebExceptionAspect {
 
     @AfterThrowing(pointcut= "webPointCut()",throwing = "e")
     public SysResult afterThrowable(JoinPoint joinPoint, Throwable e) {
-        return SysResult.error();
+        return SysResult.error(Status.FAILURE,e.getMessage(),null);
     }
 
 

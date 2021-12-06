@@ -133,7 +133,7 @@ public class SubjectService {
                 new QueryWrapper<User>().select("id").eq("username", partnerUsername)
         );
         Subject isMy = subjectMapper.selectById(partner.getSubjectId());
-        if(!isMy.getUserId().equals(Utils.getUserId())){
+        if (!isMy.getUserId().equals(Utils.getUserId())) {
             throw new SuRuntimeException(Status.NOT_MY_SUBJECT);
         }
         if (partnerUser == null) {
@@ -169,9 +169,18 @@ public class SubjectService {
                     continue;
                 }
                 partners.add(new SubjectPartner(
-                        null, user.getUsername(), user.getNickname()));
+                        subjectId, user.getUsername(), user.getNickname(), user.getId()));
             }
         }
         return SysResult.success(partners);
+    }
+
+    public boolean removePartner(SubjectPartner partner) {
+        int delete = subjectPartnerUserMapper.delete(
+                new QueryWrapper<SubjectPartnerUser>()
+                        .eq("user_id", partner.getPartnerId())
+                        .eq("subject_id", partner.getSubjectId())
+        );
+        return delete == 1;
     }
 }

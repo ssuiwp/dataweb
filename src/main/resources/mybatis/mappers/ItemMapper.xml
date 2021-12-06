@@ -3,14 +3,53 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.swp.dataweb.dao.ItemMapper">
-
+    <!--通过单个formId查询-->
     <select id="getItem" resultType="Item">
-        select i.id as id, item_name, title, options, type, i.creator as creator
+        select i.id as id, item_name, title, options, type, i.creator as creator, order_num
         from item i
                  left join
              form_item
              on item_id = i.id
         where form_id = #{formId}
+          and used = 1
+        order by order_num is null, order_num asc
     </select>
+
+    <!--通过formIds查询所有问项并拿到当前formId-->
+    <select id="getItemByFormIds" resultType="Item">
+        <foreach collection="formIds" separator="union all" item="formId">
+            select i.id as id, item_name, title, options, type, i.creator as creator, order_num, form_id
+            ,form_name
+            from item i
+            left join
+            form_item
+            on item_id = i.id
+            left join form on form_id = form.id
+            where form_id = #{formId} and used = 1 order by order_num is null,order_num asc
+        </foreach>
+    </select>
+
+    <!--通过subjectId获取-->
+    <select id="getItemBySubjectId" resultType="Item">
+
+        select i.id      as id,
+               item_name,
+               title,
+               options,
+               type,
+               i.creator as creator,
+               order_num,
+               form_id,
+               form_name
+        from item i
+                 left join
+             form_item
+             on item_id = i.id
+                 left join form on form_id = form.id
+        where exists(select form.id from form where form_id = form.id and subject_id = #{subjectId})
+        order by order_num is null, order_num asc
+
+    </select>
+
 
 </mapper>

@@ -84,7 +84,7 @@ public class Utils {
         String date = new SimpleDateFormat("HHmm").format(new Date());
         int d = Integer.parseInt(date);
         int sub = Integer.parseInt(s.substring(salt1 + 1, salt1 + 5));
-        boolean equals = d+1>=sub&&d-1<=sub;
+        boolean equals = d+3>=sub&&d-3<=sub;
         if (equals) {
             return s.substring(1, salt1 + 1) + s.substring(salt1 + 5);
         } else {

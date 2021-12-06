@@ -16,4 +16,8 @@ public class SubjectPartner implements Serializable {
     private String partnerUsername;
     //返回的合伙人的昵称
     private String partnerNickname;
+    /**
+     * 合伙人的id
+     */
+    private Long partnerId;
 }

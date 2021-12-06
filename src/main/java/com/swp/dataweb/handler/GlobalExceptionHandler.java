@@ -16,7 +16,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = SuRuntimeException.class)
     public SysResult fail(SuRuntimeException e) {
         //返回异常结果
-        return SysResult.error(e.getStatus(), e.getData());
+        log.error(e.getMessage(), e);
+        return SysResult.error(e.getStatus(),e.getMessage(), e.getData());
     }
 
 

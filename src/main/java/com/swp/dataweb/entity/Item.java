@@ -1,6 +1,7 @@
 package com.swp.dataweb.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -32,4 +33,15 @@ public class Item extends BaseEntity {
     private String creator;
 
     private Long userId;
+
+    @TableField(exist = false)
+    private Boolean used;
+    @TableField(exist = false)
+    private Integer orderNum;
+
+    /*导出excel使用 */
+    @TableField(exist = false)
+    private Long formId;
+    @TableField(exist = false)
+    private String formName;
 }

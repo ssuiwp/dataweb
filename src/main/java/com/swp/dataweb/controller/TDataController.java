@@ -3,13 +3,18 @@ package com.swp.dataweb.controller;
 import com.swp.dataweb.entity.Subject;
 import com.swp.dataweb.entity.TData;
 import com.swp.dataweb.entity.TDataModel;
+import com.swp.dataweb.entity.response.ExcelExporter;
 import com.swp.dataweb.entity.response.Status;
 import com.swp.dataweb.entity.response.SysResult;
 import com.swp.dataweb.service.SubjectService;
 import com.swp.dataweb.service.TDataService;
+import com.swp.dataweb.utils.ExcelWriter;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 
 import java.util.List;
 
@@ -52,7 +57,14 @@ public class TDataController {
         return tDataService.updateTData(tDataModel);
     }
 
-
+    /**
+     * 导出数据
+     */
+    @PostMapping("/export")
+    @ResponseBody
+    public void exportToExcel(@RequestBody ExcelExporter excelExporter, HttpServletResponse resp){
+        tDataService.filterData(excelExporter,resp);
+    }
 
 
 }

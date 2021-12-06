@@ -43,6 +43,9 @@ public enum Status {
     ITEM_NAME_EMPTY(-32, "missing multiItem name ......."),
     ITEM_FORM_EMPTY(-33, "missing belonging form ......."),
     ITEM_ILLEGAL(-34, "illegal multiItem id ......"),
+
+    //导出数据
+    EXPORT_ERROR(-40, " 筛选数据为空......"),
     ;
 
 

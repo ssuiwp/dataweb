@@ -47,6 +47,23 @@ public interface ItemMapper extends BaseMapper<Item> {
     @Select("select count(*) from item where user_id = #{userId}")
     int getTotal(@Param("userId")Long userId);
 
-
+    /**
+     * 通过单个formId查询
+     * @param formId
+     * @return
+     */
     List<Item> getItem(long formId);
+
+    /**
+     * formIds 查询所有问项
+     * @param formIds
+     * @return
+     */
+    List<Item> getItemByFormIds(@Param("formIds") List<Long> formIds);
+
+    /**
+     * 通过subjectId 查询所有问项
+     * @return
+     */
+    List<Item> getItemBySubjectId(Long subjectId);
 }

@@ -126,6 +126,16 @@ public class SubjectController {
     @GetMapping("/findPartner/{subjectId}")
     public SysResult findPartner(@PathVariable Long subjectId){
         return subjectService.findPartner(subjectId);
-
+    }
+    /**
+     * 删除合伙人
+     */
+    @PostMapping("/deletePartner")
+    public SysResult removePartner(@RequestBody SubjectPartner partner){
+        boolean result = subjectService.removePartner(partner);
+        if(result) {
+            return SysResult.success();
+        }
+        return SysResult.error();
     }
 }

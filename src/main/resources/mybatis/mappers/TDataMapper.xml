@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swp.dataweb.dao.TDataMapper">
+
+    <!--通过课题Id获取-->
+    <select id="getTDataBySubjectId" resultType="TData">
+        select id, form_id, data
+        from data
+        where exists(select form.id from form where form_id = form.id and subject_id = #{subjectId})
+        <if test="startDate!=null&amp;&amp;endDate!=null">
+            and created between #{startDate} and #{endDate}
+        </if>
+        <if test="startDate!=null&amp;&amp;endDate==null">
+            and created between #{startDate} and now()
+        </if>
+        <if test="startDate==null&amp;&amp;endDate!=null">
+            and created between '1996-10-20' and #{endDate}
+        </if>
+    </select>
+
+
+    <!--通过formIds获取-->
+    <select id="getTDataByFormIds" resultType="TData">
+        <foreach collection="formIds" item="formId" separator="union all">
+            select id, form_id, data from data
+            where form_id = #{formId}
+            <if test="startDate!=null&amp;&amp;endDate!=null">
+                and created between #{startDate} and #{endDate}
+            </if>
+            <if test="startDate!=null&amp;&amp;endDate==null">
+                and created between #{startDate} and now()
+            </if>
+            <if test="startDate==null&amp;&amp;endDate!=null">
+                and created between '1996-10-20' and #{endDate}
+            </if>
+        </foreach>
+    </select>
+</mapper>
